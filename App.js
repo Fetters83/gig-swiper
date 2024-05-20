@@ -1,6 +1,12 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import * as React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { HomeScreen } from "./screens/HomeScreen";
+import { ProfileScreen } from "./screens/ProfileScreen";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
