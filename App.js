@@ -1,14 +1,20 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { HomeScreen } from "./screens/HomeScreen";
 import { ProfileScreen } from "./screens/ProfileScreen";
+import UseAuth from "./Hooks/UseAuth.jsx";
+import SignUp from "./Components/SingUp";
+
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const {user} = UseAuth()
+
+
+  if(user)
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -18,9 +24,13 @@ export default function App() {
           options={{ title: "Welcome" }}
         />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+     
       </Stack.Navigator>
+    
     </NavigationContainer>
   );
+else{ return ( <SignUp/>)}
+
 }
 
 const styles = StyleSheet.create({
