@@ -7,7 +7,8 @@ function UseAuth(){
     
     useEffect(()=>{
         const singUp = onAuthStateChanged(auth, user =>{
-            if(user){ setUser(user)}
+            if(user){ setUser(user) 
+                console.log(user)}
             else{ setUser(null)}
         })
         return singUp

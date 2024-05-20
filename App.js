@@ -6,11 +6,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SearchScreen } from "./screens/SearchScreen";
 import { SavedScreen } from "./screens/SavedScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import UseAuth from './Hooks/UseAuth'
+import SignUp from "./components/SingUp";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
+  const {user} = UseAuth()
+
+if(user)
+
   return (
     <NavigationContainer>
       <Tab.Navigator>
@@ -47,6 +54,9 @@ export default function App() {
       </Tab.Navigator>
     </NavigationContainer>
   );
+
+else {return <SignUp/> }
+
 }
 
 const styles = StyleSheet.create({
