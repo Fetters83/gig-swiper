@@ -1,17 +1,11 @@
-import { useNavigation } from "@react-navigation/native";
 import { View, Text, Button } from "react-native";
-
-
+import { GigDetails } from "../components/GigDetails";
 
 export function SearchScreen() {
-
-
-    const navigation = useNavigation();
-
     return (
         <View>
             <Text>Search Screen</Text>
-
+            <GigDetails />
         </View>
     )
 }
