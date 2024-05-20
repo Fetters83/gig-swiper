@@ -1,10 +1,10 @@
 import { View, Text } from "react-native";
 
 
-export function ProfileScreen() {
+export function SavedScreen() {
     return (
         <View>
-            <Text>Profile Screen</Text>
+            <Text>Saved Screen</Text>
         </View>
     )
 }
