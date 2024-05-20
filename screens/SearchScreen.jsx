@@ -11,9 +11,7 @@ export function SearchScreen() {
     return (
         <View>
             <Text>Search Screen</Text>
-            <Button 
-            title={"Go to Profile"}
-            onPress={()=>{ navigation.navigate("Profile")}}/>
+
         </View>
     )
 }
