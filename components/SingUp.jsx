@@ -3,23 +3,26 @@ import { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { auth } from '../config/Config';
+import Error from './Error';
 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [error, setError] = useState(false)
   function handleSignUp() {
     if (email && password) {
-      return createUserWithEmailAndPassword(auth, email, password).then((data)=>{console.log(data)})
-        .catch((error) => {
-          console.log(error)
-          return error
+      return createUserWithEmailAndPassword(auth, email, password).then((data)=>{console.log("logged in")})
+        .catch((err) => {
+          setError(true)
+
         })
     }
 
   }
 
-
+if(error){
+  return ( <Error/>)
+}
 
   return (
     <View style={styles.container}>
