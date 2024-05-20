@@ -1,4 +1,4 @@
-import { View, Text, Button, Pressable } from "react-native";
+import { View, Text, Button, Pressable, Modal } from "react-native";
 import { GigDetails } from "../components/GigDetails";
 import { useContext } from "react";
 import GigInfoVisibleContext from "../contexts/GigInfoVisibleContext";
@@ -16,7 +16,8 @@ export function SearchScreen() {
             <Pressable onPress={toggleGigInfoVisible}>
                 <Text>hit me</Text>
             </Pressable>
-            {gigInfoVisible && <GigDetails />}
+            <Modal animationType="slide" transparent={true} visible={gigInfoVisible}><Text>I'm your modal :D</Text></Modal>
+            <GigDetails visible={gigInfoVisible}/>
         </View>
     )
 }
