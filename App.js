@@ -21,6 +21,7 @@ if(user)
   return (
     <NavigationContainer>
       <Tab.Navigator>
+  
         <Tab.Screen
           name="Search"
           component={SearchScreen}
