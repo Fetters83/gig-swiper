@@ -11,13 +11,14 @@ import LogIn from './LogIn';
 function SignUp({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false)
-  
+  const [validCredentials, setValidCredentials] = useState(true)
+
   function handleSignUp() {
     if (email && password) {
       return createUserWithEmailAndPassword(auth, email, password).then((data)=>{console.log("logged in")})
         .catch((err) => {
-          setError(true)
+          console.log(err)
+         setValidCredentials(false)
 
         })
     }
@@ -26,10 +27,6 @@ function SignUp({navigation}) {
   function handleLink(){
     navigation.navigate("login")
   }
-
-if(error){
-  return ( <Error/>)
-}
 
   return (
     <View style={styles.container}>
@@ -50,6 +47,8 @@ if(error){
       <View style={styles.logOut}>
 
      <Button onPress={handleLink} id="login" title={"Already have an account?"}></Button>
+     {!validCredentials && <Text style={styles.text}> Check your credentials</Text>}
+
      </View>
    
     </View>
@@ -58,6 +57,11 @@ if(error){
 }
 
 const styles = StyleSheet.create({
+  text:{
+    marginTop: 20,
+textAlign: "center"
+
+  },
   logOut: {
  marginTop: 20
   
