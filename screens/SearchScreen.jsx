@@ -1,8 +1,9 @@
 import { View, Text, Button, Pressable, Modal } from "react-native";
-import { GigDetails } from "../components/GigDetails";
+import { GigCard } from "../components/GigCard";
 import LogOutButton from "../components/LogOutButton";
 import { useContext } from "react";
 import GigInfoVisibleContext from "../contexts/GigInfoVisibleContext";
+import { GigInfoModal } from "../components/GIgInfoModal";
 
 export function SearchScreen() {
     const { gigInfoVisible, setGigInfoVisible } = useContext(GigInfoVisibleContext)
@@ -18,8 +19,8 @@ export function SearchScreen() {
             <Pressable onPress={toggleGigInfoVisible}>
                 <Text>hit me</Text>
             </Pressable>
-            <Modal animationType="slide" transparent={true} visible={gigInfoVisible}><Text>I'm your modal :D</Text></Modal>
-            <GigDetails visible={gigInfoVisible}/>
+            {gigInfoVisible ? <GigInfoModal gigInfoVisible={gigInfoVisible}/> :
+            <GigCard visible={gigInfoVisible}/>}
         </View>
     )
 }
