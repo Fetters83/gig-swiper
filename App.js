@@ -34,7 +34,6 @@ export default function App() {
         value={{ gigInfoVisible, setGigInfoVisible }}
       >
         <SafeAreaView>
-          <Header></Header>
         </SafeAreaView>
         <NavigationContainer>
           <Tab.Navigator screenOptions={headerStyle}>
