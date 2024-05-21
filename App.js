@@ -14,6 +14,8 @@ import { UserContext } from "./contexts/UserContext";
 
 import { useState } from "react";
 import GigInfoVisibleContext from "./contexts/GigInfoVisibleContext";
+import { Header } from "./components/Header";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const Stack = createNativeStackNavigator();
@@ -30,7 +32,10 @@ export default function App() {
 
   return (
     <GigInfoVisibleContext.Provider value={{gigInfoVisible, setGigInfoVisible}}>
-
+      <SafeAreaView>
+        <Header>
+        </Header>  
+      </SafeAreaView>
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen
