@@ -1,6 +1,5 @@
 import { View, Text, Button, Pressable, Modal } from "react-native";
 import { GigCard } from "../components/GigCard";
-import LogOutButton from "../components/LogOutButton";
 import { useContext } from "react";
 import GigInfoVisibleContext from "../contexts/GigInfoVisibleContext";
 import { GigInfoModal } from "../components/GIgInfoModal";
@@ -15,7 +14,6 @@ export function SearchScreen() {
     return (
         <View>
             <Text>Search Screen</Text>
-            <LogOutButton/>
             <Pressable onPress={toggleGigInfoVisible}>
                 <Text>hit me</Text>
             </Pressable>
