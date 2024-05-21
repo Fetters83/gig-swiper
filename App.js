@@ -17,72 +17,16 @@ import GigInfoVisibleContext from "./contexts/GigInfoVisibleContext";
 import { Header } from "./components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LogIn from "./components/LogIn";
+import { headerStyle } from "./styles/Header";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
 
-  const [gigInfoVisible, setGigInfoVisible] = useState(false)
+  const [gigInfoVisible, setGigInfoVisible] = useState(false);
 
-  const {user} = UseAuth()
-
-  if(user) {
-
-  return (
-    <GigInfoVisibleContext.Provider value={{gigInfoVisible, setGigInfoVisible}}>
-      <SafeAreaView>
-        <Header>
-        </Header>  
-      </SafeAreaView>
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen
-            name="Search"
-            component={SearchScreen}
-            options={{
-              title: "Search",
-              tabBarIcon: ({ size, focused, color }) => {
-                return (
-                  <Image
-                    style={styles.tabImage}
-                    source={require("./assets/search.png")}
-                  />
-                );
-              },
-            }}
-          />
-          <Tab.Screen
-            name="Saved"
-            component={SavedScreen}
-            options={{
-              title: "Saved",
-              tabBarIcon: ({ size, focused, color }) => {
-                return (
-                  <Image
-                    style={styles.tabImage}
-                    source={require("./assets/saved.png")}
-                  />
-                );
-              },
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </GigInfoVisibleContext.Provider>
-
-  );
-
-} else {return ( <NavigationContainer>
-  <Stack.Navigator initialRouteName="signUp"> 
-    <Stack.Screen name="signup" component={SignUp}></Stack.Screen>
-    <Stack.Screen name= "login" component={LogIn}></Stack.Screen>
-   
-    </Stack.Navigator>
- 
-  
-  </NavigationContainer>)}
-
+  const { user } = UseAuth();
 
   if (user) {
     return (
@@ -93,12 +37,11 @@ export default function App() {
           <Header></Header>
         </SafeAreaView>
         <NavigationContainer>
-          <Tab.Navigator>
+          <Tab.Navigator screenOptions={headerStyle}>
             <Tab.Screen
               name="Search"
               component={SearchScreen}
               options={{
-                title: "Search",
                 tabBarIcon: ({ size, focused, color }) => {
                   return (
                     <Image
@@ -113,7 +56,6 @@ export default function App() {
               name="Saved"
               component={SavedScreen}
               options={{
-                title: "Saved",
                 tabBarIcon: ({ size, focused, color }) => {
                   return (
                     <Image
@@ -129,7 +71,14 @@ export default function App() {
       </GigInfoVisibleContext.Provider>
     );
   } else {
-    return <SignUp />;
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="signUp">
+          <Stack.Screen name="signup" component={SignUp}></Stack.Screen>
+          <Stack.Screen name="login" component={LogIn}></Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
   }
 }
 
