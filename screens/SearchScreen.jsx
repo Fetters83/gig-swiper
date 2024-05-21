@@ -16,7 +16,6 @@ export function SearchScreen() {
     return (
         <View style={styles.container}>
             <Text>Search Screen</Text>
-            <LogOutButton/>
             {gigInfoVisible ? <GigInfoModal gigInfoVisible={gigInfoVisible} toggleGigInfoVisible={toggleGigInfoVisible}/> :
             <GigCard toggleGigInfoVisible={toggleGigInfoVisible} visible={gigInfoVisible}/>}
         </View>
