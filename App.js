@@ -39,6 +39,7 @@ export default function App() {
           <Tab.Navigator screenOptions={headerStyle}>
             <Tab.Screen
               name="Search"
+              
               component={SearchScreen}
               options={{
                 tabBarIcon: ({ size, focused, color }) => {
