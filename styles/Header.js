@@ -1,4 +1,13 @@
 import { Button } from "react-native";
+import { signOut } from "firebase/auth";
+import { auth } from "../config/Config";
+
+  function handleLogout(){
+      return signOut(auth).then((data)=>{console.log(data , "was an error")})
+      .catch((err)=>{
+          console.log(err, "EEEEEEEEEEEEEEEE")
+      })
+  }
 
 export const headerStyle = {
   title: "My home",
@@ -11,8 +20,8 @@ export const headerStyle = {
   },
   headerRight: () => (
     <Button
-      onPress={() => alert('This is a button!')}
-      title="Info"
+      onPress={handleLogout}
+      title="Log Out"
       color="#fff"
       style={marginHorizontal=50}
     />
