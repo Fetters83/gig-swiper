@@ -1,13 +1,17 @@
-import { StyleSheet, Text, View, Modal } from "react-native";
+import { StyleSheet, Text, View, Modal, Pressable, Image } from "react-native";
 
-export function GigInfoModal({gigInfoVisible}) {
+export function GigInfoModal({gigInfoVisible, toggleGigInfoVisible}) {
 
     return (
 
 
           <View style={styles.container}>
-            <Text>THIS IS THE INFO FOR THE GIG</Text>
-            <Text>Gig Info.....</Text>
+            <Text>Paul McCartney's Hologram</Text>
+            <Text>Or is it his lookalike?</Text>
+            <Text>More info here...</Text>
+            <Pressable onPress={toggleGigInfoVisible}>
+              <Text>Close</Text>
+            </Pressable>
           </View>
 
       )

@@ -3,6 +3,8 @@ import { GigCard } from "../components/GigCard";
 import { useContext } from "react";
 import GigInfoVisibleContext from "../contexts/GigInfoVisibleContext";
 import { GigInfoModal } from "../components/GIgInfoModal";
+import { StyleSheet } from "react-native";
+
 
 export function SearchScreen() {
     const { gigInfoVisible, setGigInfoVisible } = useContext(GigInfoVisibleContext)
@@ -12,13 +14,19 @@ export function SearchScreen() {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <Text>Search Screen</Text>
-            <Pressable onPress={toggleGigInfoVisible}>
-                <Text>hit me</Text>
-            </Pressable>
-            {gigInfoVisible ? <GigInfoModal gigInfoVisible={gigInfoVisible}/> :
-            <GigCard visible={gigInfoVisible}/>}
+            <LogOutButton/>
+            {gigInfoVisible ? <GigInfoModal gigInfoVisible={gigInfoVisible} toggleGigInfoVisible={toggleGigInfoVisible}/> :
+            <GigCard toggleGigInfoVisible={toggleGigInfoVisible} visible={gigInfoVisible}/>}
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+    }
+  });
+  
