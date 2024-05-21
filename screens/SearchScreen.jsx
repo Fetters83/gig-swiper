@@ -18,11 +18,8 @@ export function SearchScreen() {
         <View style={styles.container}>
             <Text>Search Screen</Text>
             <LogOutButton/>
-            <Pressable onPress={toggleGigInfoVisible}>
-                <Text>hit me</Text>
-            </Pressable>
-            {gigInfoVisible ? <GigInfoModal gigInfoVisible={gigInfoVisible}/> :
-            <GigCard visible={gigInfoVisible}/>}
+            {gigInfoVisible ? <GigInfoModal gigInfoVisible={gigInfoVisible} toggleGigInfoVisible={toggleGigInfoVisible}/> :
+            <GigCard toggleGigInfoVisible={toggleGigInfoVisible} visible={gigInfoVisible}/>}
         </View>
     )
 }
