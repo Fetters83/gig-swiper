@@ -12,9 +12,11 @@ export function GigCard() {
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: "#fff",
+      backgroundColor: "cyan",
       alignItems: "center",
-      justifyContent: "center",    },
+      justifyContent: "center",
+      width: "90%"
+    },
     header: {
       fontSize: 20,
     },

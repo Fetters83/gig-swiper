@@ -4,6 +4,8 @@ import LogOutButton from "../components/LogOutButton";
 import { useContext } from "react";
 import GigInfoVisibleContext from "../contexts/GigInfoVisibleContext";
 import { GigInfoModal } from "../components/GIgInfoModal";
+import { StyleSheet } from "react-native";
+
 
 export function SearchScreen() {
     const { gigInfoVisible, setGigInfoVisible } = useContext(GigInfoVisibleContext)
@@ -13,7 +15,7 @@ export function SearchScreen() {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <Text>Search Screen</Text>
             <LogOutButton/>
             <Pressable onPress={toggleGigInfoVisible}>
@@ -24,3 +26,11 @@ export function SearchScreen() {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+    }
+  });
+  
