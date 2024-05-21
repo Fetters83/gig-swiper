@@ -17,6 +17,7 @@ import GigInfoVisibleContext from "./contexts/GigInfoVisibleContext";
 import { Header } from "./components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LogIn from "./components/LogIn";
+import { headerStyle } from "./styles/Header";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -35,12 +36,11 @@ export default function App() {
           <Header></Header>
         </SafeAreaView>
         <NavigationContainer>
-          <Tab.Navigator>
+          <Tab.Navigator screenOptions={headerStyle}>
             <Tab.Screen
               name="Search"
               component={SearchScreen}
               options={{
-                title: "Search",
                 tabBarIcon: ({ size, focused, color }) => {
                   return (
                     <Image
@@ -55,7 +55,6 @@ export default function App() {
               name="Saved"
               component={SavedScreen}
               options={{
-                title: "Saved",
                 tabBarIcon: ({ size, focused, color }) => {
                   return (
                     <Image
