@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -27,6 +27,13 @@ function SignUp({navigation}) {
   function handleLink(){
     navigation.navigate("login")
   }
+  function handleDevAccess() {
+    return signInWithEmailAndPassword(auth, 'fiveguys@dev.com', 'Password')
+    .then((data) => {
+    })
+    .catch((err) => {
+    })
+  }
 
   return (
     <View style={styles.container}>
@@ -50,7 +57,9 @@ function SignUp({navigation}) {
      {!validCredentials && <Text style={styles.text}> Check your credentials</Text>}
 
      </View>
-   
+   <View>
+    <Button title="Dev Access" onPress={handleDevAccess} />
+   </View>
     </View>
   
   );
