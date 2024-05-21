@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export function GigDetails() {
+export function GigCard() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Component Header</Text>
-            <Text style={styles.text}>Component Text</Text>
+            <Text style={styles.header}>GIG CARD HERE</Text>
+            <Text style={styles.text}>Swipe or click info</Text>
         </View>
     )
 }
