@@ -24,9 +24,6 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [gigInfoVisible, setGigInfoVisible] = useState(false);
 
-
-  const [gigInfoVisible, setGigInfoVisible] = useState(false)
-
   const {user} = UseAuth()
 
   if(user) {
