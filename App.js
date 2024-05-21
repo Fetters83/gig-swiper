@@ -16,6 +16,7 @@ import { useState } from "react";
 import GigInfoVisibleContext from "./contexts/GigInfoVisibleContext";
 import { Header } from "./components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
+import LogIn from "./components/LogIn";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,7 +24,67 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [gigInfoVisible, setGigInfoVisible] = useState(false);
 
-  const { user } = UseAuth();
+
+  const [gigInfoVisible, setGigInfoVisible] = useState(false)
+
+  const {user} = UseAuth()
+
+  if(user) {
+
+  return (
+    <GigInfoVisibleContext.Provider value={{gigInfoVisible, setGigInfoVisible}}>
+      <SafeAreaView>
+        <Header>
+        </Header>  
+      </SafeAreaView>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen
+            name="Search"
+            component={SearchScreen}
+            options={{
+              title: "Search",
+              tabBarIcon: ({ size, focused, color }) => {
+                return (
+                  <Image
+                    style={styles.tabImage}
+                    source={require("./assets/search.png")}
+                  />
+                );
+              },
+            }}
+          />
+          <Tab.Screen
+            name="Saved"
+            component={SavedScreen}
+            options={{
+              title: "Saved",
+              tabBarIcon: ({ size, focused, color }) => {
+                return (
+                  <Image
+                    style={styles.tabImage}
+                    source={require("./assets/saved.png")}
+                  />
+                );
+              },
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </GigInfoVisibleContext.Provider>
+
+  );
+
+} else {return ( <NavigationContainer>
+  <Stack.Navigator initialRouteName="signUp"> 
+    <Stack.Screen name="signup" component={SignUp}></Stack.Screen>
+    <Stack.Screen name= "login" component={LogIn}></Stack.Screen>
+   
+    </Stack.Navigator>
+ 
+  
+  </NavigationContainer>)}
+
 
   if (user) {
     return (
