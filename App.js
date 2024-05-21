@@ -79,54 +79,6 @@ export default function App() {
       </NavigationContainer>
     );
   }
-
-  if (user) {
-    return (
-      <GigInfoVisibleContext.Provider
-        value={{ gigInfoVisible, setGigInfoVisible }}
-      >
-        <SafeAreaView>
-          <Header></Header>
-        </SafeAreaView>
-        <NavigationContainer>
-          <Tab.Navigator>
-            <Tab.Screen
-              name="Search"
-              component={SearchScreen}
-              options={{
-                title: "Search",
-                tabBarIcon: ({ size, focused, color }) => {
-                  return (
-                    <Image
-                      style={styles.tabImage}
-                      source={require("./assets/search.png")}
-                    />
-                  );
-                },
-              }}
-            />
-            <Tab.Screen
-              name="Saved"
-              component={SavedScreen}
-              options={{
-                title: "Saved",
-                tabBarIcon: ({ size, focused, color }) => {
-                  return (
-                    <Image
-                      style={styles.tabImage}
-                      source={require("./assets/saved.png")}
-                    />
-                  );
-                },
-              }}
-            />
-          </Tab.Navigator>
-        </NavigationContainer>
-      </GigInfoVisibleContext.Provider>
-    );
-  } else {
-    return <SignUp />;
-  }
 }
 
 const styles = StyleSheet.create({
