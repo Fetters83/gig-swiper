@@ -16,6 +16,7 @@ import { useState } from "react";
 import GigInfoVisibleContext from "./contexts/GigInfoVisibleContext";
 import { Header } from "./components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
+import LogIn from "./components/LogIn";
 
 
 const Stack = createNativeStackNavigator();
@@ -74,7 +75,15 @@ export default function App() {
 
   );
 
-} else {return <SignUp/> }
+} else {return ( <NavigationContainer>
+  <Stack.Navigator initialRouteName="signUp"> 
+    <Stack.Screen name="signup" component={SignUp}></Stack.Screen>
+    <Stack.Screen name= "login" component={LogIn}></Stack.Screen>
+   
+    </Stack.Navigator>
+ 
+  
+  </NavigationContainer>)}
 
 }
 
