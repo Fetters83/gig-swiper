@@ -2,6 +2,7 @@ import { Button } from "react-native";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/Config";
 import { Search } from "../components/Search";
+import { useState } from "react";
 
   function handleLogout(){
       return signOut(auth).then((data)=>{console.log(data , "was an error")})
@@ -10,8 +11,10 @@ import { Search } from "../components/Search";
       })
   }
 
+
+
 export const headerStyle = {
-  headerTitle: (props) => <Search props={props}/>,
+  
   headerStyle: {
     backgroundColor: "#f4511e",
   },

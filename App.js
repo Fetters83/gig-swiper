@@ -18,13 +18,15 @@ import { Header } from "./components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LogIn from "./components/LogIn";
 import { headerStyle } from "./styles/Header";
+import { Search } from "./components/Search";
+import { GigStackContext } from "./contexts/GigStackContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-
   const [gigInfoVisible, setGigInfoVisible] = useState(false);
+  const [gigStack, setGigStack] = useState("test");
 
   const { user } = UseAuth();
 
@@ -33,41 +35,42 @@ export default function App() {
       <GigInfoVisibleContext.Provider
         value={{ gigInfoVisible, setGigInfoVisible }}
       >
-        <SafeAreaView>
-        </SafeAreaView>
-        <NavigationContainer>
-          <Tab.Navigator screenOptions={headerStyle}>
-            <Tab.Screen
-              name="Search"
-              
-              component={SearchScreen}
-              options={{
-                tabBarIcon: ({ size, focused, color }) => {
-                  return (
-                    <Image
-                      style={styles.tabImage}
-                      source={require("./assets/search.png")}
-                    />
-                  );
-                },
-              }}
-            />
-            <Tab.Screen
-              name="Saved"
-              component={SavedScreen}
-              options={{
-                tabBarIcon: ({ size, focused, color }) => {
-                  return (
-                    <Image
-                      style={styles.tabImage}
-                      source={require("./assets/saved.png")}
-                    />
-                  );
-                },
-              }}
-            />
-          </Tab.Navigator>
-        </NavigationContainer>
+        <GigStackContext.Provider value={{ gigStack, setGigStack }}>
+          <NavigationContainer>
+            <Tab.Navigator screenOptions={headerStyle}>
+              <Tab.Screen
+                name="Search"
+                component={SearchScreen}
+                options={{
+                  headerTitle: Search,
+                  tabBarIcon: ({ size, focused, color }) => {
+                    return (
+                      <Image
+                        style={styles.tabImage}
+                        source={require("./assets/search.png")}
+                      />
+                    );
+                  },
+                }}
+              />
+
+              <Tab.Screen
+                name="Saved"
+                component={SavedScreen}
+                options={{
+                  tabBarIcon: ({ size, focused, color }) => {
+                    return (
+                      <Image
+                        style={styles.tabImage}
+                        source={require("./assets/saved.png")}
+                      />
+                    );
+                  },
+                }}
+              />
+            </Tab.Navigator>
+          </NavigationContainer>
+        </GigStackContext.Provider>
       </GigInfoVisibleContext.Provider>
     );
   } else {

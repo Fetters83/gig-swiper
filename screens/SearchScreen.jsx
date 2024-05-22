@@ -5,15 +5,18 @@ import GigInfoVisibleContext from "../contexts/GigInfoVisibleContext";
 import { GigInfoModal } from "../components/GIgInfoModal";
 import { getAllEvents } from "../api";
 import { StyleSheet } from "react-native";
+import { GigStackContext } from "../contexts/GigStackContext";
 
 
 export function SearchScreen() {
     const { gigInfoVisible, setGigInfoVisible } = useContext(GigInfoVisibleContext)
     const [events ,setEvents] = useState([])
+    const { gigStack } = useContext(GigStackContext)
+
+    console.log("gigstack:", gigStack)
     
 useEffect(()=>{
     getAllEvents().then((data)=>{
-        console.log(data)
     setEvents(data)}
 )   
 },[])
