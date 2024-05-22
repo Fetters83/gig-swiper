@@ -24,12 +24,16 @@ export function Search() {
     setGigStack(newGigs)
   }
 
-  return (
-    <View style={styles.container}>
-      <TextInput onChangeText={text => setLocationSearch(text)} placeholder="hello..."></TextInput>
-      <Button onPress={handleLocationGo} title="Go" />
-    </View>
-  )
+    return (
+        <View style={styles.container}>
+          <View style={styles.fullWidth}>
+            <TextInput style={styles.textInput} onChangeText={text => setLocationSearch(text)} placeholder="Enter city name here"></TextInput>
+
+          </View>
+            <Button onPress={handleLocationGo} title="Go" />
+        </View>
+    )
+
 }
 
 const styles = StyleSheet.create({
@@ -39,5 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: 180,
     flexDirection: 'row',
-  }
+    paddingLeft: 5,
+  },
+
 });
