@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { GigStackContext } from "../contexts/GigStackContext";
+import { fetchLocation } from "../api";
 
 
 export function Search() {
@@ -11,6 +12,7 @@ export function Search() {
   
   function handleLocationGo() {
     // const newGigs = fetchLocation(locationSearch)
+      fetchLocation(locationSearch)
       const newGigs = locationSearch
       setGigStack(newGigs)
   }
