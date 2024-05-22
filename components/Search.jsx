@@ -1,18 +1,27 @@
 import { useContext, useEffect, useState } from "react";
 import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { GigStackContext } from "../contexts/GigStackContext";
+import { fetchLatitudeAndLongitude, getAllEvents } from "../api";
 
 
 export function Search() {
 
   const [locationSearch, setLocationSearch] = useState('')
-  const {setGigStack} = useContext(GigStackContext)
+  const { setGigStack } = useContext(GigStackContext)
   console.log(locationSearch)
-  
+
   function handleLocationGo() {
-    // const newGigs = fetchLocation(locationSearch)
-      const newGigs = locationSearch
-      setGigStack(newGigs)
+    // const newGigs = fetchLatitudeAndLongitude(locationSearch)
+    fetchLatitudeAndLongitude(locationSearch).then((data) => {
+      return data
+    })
+      .then(({ latitude, longitude }) => {
+        console.log(latitude, longitude)
+        return getAllEvents(latitude, longitude, 5)
+      })
+      .then((eventos) => { console.log(eventos, "SWEAR DONW") })
+    const newGigs = locationSearch
+    setGigStack(newGigs)
   }
 
     return (
@@ -24,6 +33,7 @@ export function Search() {
             <Button onPress={handleLocationGo} title="Go" />
         </View>
     )
+
 }
 
 const styles = StyleSheet.create({
