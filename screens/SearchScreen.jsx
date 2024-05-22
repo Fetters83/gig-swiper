@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import GigInfoVisibleContext from "../contexts/GigInfoVisibleContext";
 import { GigInfoModal } from "../components/GIgInfoModal";
 import { getAllEvents } from "../api";
+import { StyleSheet } from "react-native";
 
 
 export function SearchScreen() {
@@ -14,31 +15,25 @@ useEffect(()=>{
     getAllEvents().then((data)=>{
         console.log(data)
     setEvents(data)}
-)
-    
-
+)   
 },[])
 
     function toggleGigInfoVisible() {
         setGigInfoVisible(!gigInfoVisible)
     }
 
-    return (<View>
-        <FlatList data={events}
-        renderItem={({item})=> <Text>{item.eventname}</Text>}
-        
-        
-        />
-            
-            
-
-        
-
-            <Pressable onPress={toggleGigInfoVisible}>
-                <Text>hit me</Text>
-            </Pressable>
-            {gigInfoVisible ? <GigInfoModal gigInfoVisible={gigInfoVisible}/> :
-            <GigCard visible={gigInfoVisible}/>}
+    return (
+        <View style={styles.container}>
+            {gigInfoVisible ? <GigInfoModal gigInfoVisible={gigInfoVisible} toggleGigInfoVisible={toggleGigInfoVisible}/> :
+            <GigCard toggleGigInfoVisible={toggleGigInfoVisible} visible={gigInfoVisible}/>}
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+    }
+  });
+  
