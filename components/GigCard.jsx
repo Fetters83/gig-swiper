@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       width: '95%',
       height: "85%",
+      marginVertical: "2.5%",
       borderRadius: 10,
       // padding: 10,      
     },

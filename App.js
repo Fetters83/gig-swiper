@@ -34,12 +34,12 @@ export default function App() {
         value={{ gigInfoVisible, setGigInfoVisible }}
       >
         <SafeAreaView>
-          <Header></Header>
         </SafeAreaView>
         <NavigationContainer>
           <Tab.Navigator screenOptions={headerStyle}>
             <Tab.Screen
               name="Search"
+              
               component={SearchScreen}
               options={{
                 tabBarIcon: ({ size, focused, color }) => {
