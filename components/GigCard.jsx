@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View, Pressable, FlatList, TouchableOpacity } from "react-native";
 import { GigStackContext } from "../contexts/GigStackContext";
+import { LikedGigContext } from "../contexts/LikedGigContext";
 
 export function GigCard(props) {
 
   const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber } = props
   const { gigStack } = useContext(GigStackContext)
-
+  const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
 
   const imageurl = gigStack[stackNumber].xlargeimageurl
 
@@ -14,6 +15,14 @@ export function GigCard(props) {
   function handleLike() {
     setStackNumber(stackNumber + 1)
     setCurrentGig(gigStack[stackNumber])
+    const newLike= {
+      id: gigStack[stackNumber].id,
+      title : gigStack[stackNumber].eventname,
+      location :gigStack[stackNumber].venue.name,
+      imageurl: gigStack[stackNumber].xlargeimageurl,
+    }
+    setLikedGigs([...likedGigs, newLike])
+
   }
   useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
 
