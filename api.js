@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LogBox } from "react-native";
 const Buffer = require('buffer/').Buffer
 const client_id = process.env.EXPO_PUBLIC_CLIENT_ID
 const client_secret = process.env.EXPO_PUBLIC_CLIENT_SECRET
@@ -55,10 +56,48 @@ const authOptions = {
 
 
 
+// Spotify
+function getSpotifyToken() {
+    return axios.post(url, null, authOptions)
+    .then((response) => {
+        return response.data.access_token;
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
 
-axios.post(url, null,authOptions).then((response)=>{
-      return response.data.access_token
-  
-  }).catch((error)=>{
-    console.log(error)
-  })
+function fetchArtistId(artistName, token) {
+    console.log(artistName, token);
+    return axios.get(`https://api.spotify.com/v1/search`, {
+        params: {
+            q: artistName,
+            type: "artist",
+            market: "GB",
+            limit: 1,
+            offset: 0
+        },
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+        }
+    )
+    .then((response) => {
+        return response.data.artists.items[0].id;
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+}
+
+function getArtistTopTracks(token) {
+
+}
+
+getSpotifyToken()
+.then((token) => {
+    return fetchArtistId('Taylor Swift', token)
+})
+.then((artistID) => {
+    console.log(artistID);
+})
