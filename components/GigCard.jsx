@@ -53,7 +53,7 @@ export function GigCard(props) {
               <Image style={styles.cardButton} source={require('../assets/info.png')} />
             </Pressable>
             <Pressable onPress={handleLike} style={styles.cardButton}  >
-              <Image style={styles.cardButton} source={require('../assets/rock-on.png')} />
+              <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
             </Pressable>
           </View>
         </View>)
@@ -102,6 +102,11 @@ const styles = StyleSheet.create({
   },
   cardButton: {
     width: "33%",
+    objectFit: "contain",
+    alignItems: 'center',
+  },
+  cardButtonImage: {
+    width: "100%",
     objectFit: "contain",
     alignItems: 'center',
   },
