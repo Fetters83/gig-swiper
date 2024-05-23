@@ -20,6 +20,7 @@ import LogIn from "./components/LogIn";
 import { headerStyle } from "./styles/Header";
 import { Search } from "./components/Search";
 import { GigStackContext } from "./contexts/GigStackContext";
+import { LikedGigContext } from './contexts/LikedGigContext'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,11 +28,15 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [gigInfoVisible, setGigInfoVisible] = useState(false);
   const [gigStack, setGigStack] = useState("nosearch");
+  const [likedGigs, setLikedGigs] = useState([])
+
 
   const { user } = UseAuth();
 
   if (user) {
     return (
+
+      <LikedGigContext.Provider value={{likedGigs, setLikedGigs}}>
       <GigInfoVisibleContext.Provider
         value={{ gigInfoVisible, setGigInfoVisible }}
       >
@@ -72,6 +77,7 @@ export default function App() {
           </NavigationContainer>
         </GigStackContext.Provider>
       </GigInfoVisibleContext.Provider>
+      </LikedGigContext.Provider>
     );
   } else {
     return (

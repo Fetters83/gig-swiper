@@ -1,13 +1,15 @@
 import { StyleSheet, Text, View, Image, Pressable} from "react-native";
 
-export const LikedGig = ({toggleGigInfoVisible}) => {
-     
+export const LikedGig = (props) => {
+   const {toggleGigInfoVisible, eventos} = props
+   const { title, location, imageurl } =eventos
+   console.log(title)
     return (
         <View style={styles.separator}>
-            <Image style={styles.gigImage} source={{ uri: 'https://d31fr2pwly4c4s.cloudfront.net/d/6/f/1739150_d3263fcd_ibiza-proms-in-manchester-cathedral_1024.jpg' }}/>
+            <Image style={styles.gigImage} source={{ uri: imageurl }}/>
             <View style={styles.container}>
-                <Text style={styles.header}>Paul McCartney's Hologram</Text>
-                <Text style={styles.text}>Manchester Academy</Text>
+                <Text style={styles.header}>{title}</Text>
+                <Text style={styles.text}>{location}</Text>
             </View>
             <View>
             <Pressable style={styles.infoButton} onPress={toggleGigInfoVisible}>
