@@ -1,10 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
+import { LikedGig } from "../components/LikedGig";
 
 
-export function SavedScreen() {
+export function SavedScreen({toggleGigInfoVisible}) {
     return (
-        <View>
+        <ScrollView>
             <Text>Saved Screen</Text>
-        </View>
+            <LikedGig toggleGigInfoVisible={toggleGigInfoVisible}/>
+        </ScrollView>
     )
 }
