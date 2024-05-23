@@ -24,7 +24,7 @@ console.log(gigStack.length, stackNumber)
 {gigStack === "nosearch" || stackNumber === gigStack.length-1 ?
 
 <>
-<Text>Swear Down!</Text>
+<Text style={styles.typeACity}>Type a place name to search</Text>
 </>
 
 
@@ -122,6 +122,10 @@ const styles = StyleSheet.create({
         shadowRadius: 2,  
         elevation: 5
     },
-
+    typeACity: {
+      margin: 40,
+      fontSize: 30,
+      textAlign: 'center',
+    }
   });
   
