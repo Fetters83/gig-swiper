@@ -1,4 +1,5 @@
 import axios from "axios";
+const Buffer = require('buffer/').Buffer
 
 export function getAllEvents(latitude, longitude, radius) {
     console.log(latitude, longitude, radius);
@@ -29,3 +30,32 @@ export function fetchLatitudeAndLongitude(locationSearch) {
             return { latitude: data[0].lat, longitude: data[0].lon };
         });
 }
+
+const client_id = '701a05a7ad784a3eb09a617299301e89';
+const client_secret = '50212da2c9c94f4b938ee9bf9daf00f0';
+const url = 'https://accounts.spotify.com/api/token';
+
+const authOptions = {
+    params: {
+        client_id: client_id,
+        client_secret: client_secret,
+        grant_type: 'client_credentials'
+    },
+    headers: {
+        'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+    },
+    form: {
+        grant_type: 'client_credentials'
+    },
+    json: true
+};
+
+
+
+
+axios.post(url, null,authOptions).then((response)=>{
+      return response.data.access_token
+  
+  }).catch((error)=>{
+    console.log(error)
+  })
