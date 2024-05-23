@@ -7,10 +7,6 @@ export function SavedScreen({toggleGigInfoVisible}) {
         <ScrollView>
             <Text>Saved Screen</Text>
             <LikedGig toggleGigInfoVisible={toggleGigInfoVisible}/>
-            <LikedGig toggleGigInfoVisible={toggleGigInfoVisible}/>
-            <LikedGig toggleGigInfoVisible={toggleGigInfoVisible}/>
-            <LikedGig toggleGigInfoVisible={toggleGigInfoVisible}/>
-            <LikedGig toggleGigInfoVisible={toggleGigInfoVisible}/>
         </ScrollView>
     )
 }
