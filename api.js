@@ -1,5 +1,8 @@
 import axios from "axios";
 const Buffer = require('buffer/').Buffer
+const client_id = process.env.EXPO_PUBLIC_CLIENT_ID
+const client_secret = process.env.EXPO_PUBLIC_CLIENT_SECRET
+
 
 export function getAllEvents(latitude, longitude, radius) {
     console.log(latitude, longitude, radius);
@@ -31,8 +34,8 @@ export function fetchLatitudeAndLongitude(locationSearch) {
         });
 }
 
-const client_id = '701a05a7ad784a3eb09a617299301e89';
-const client_secret = '50212da2c9c94f4b938ee9bf9daf00f0';
+
+
 const url = 'https://accounts.spotify.com/api/token';
 
 const authOptions = {
