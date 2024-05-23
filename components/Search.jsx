@@ -11,7 +11,6 @@ export function Search() {
 
 
   function handleLocationGo() {
-    // const newGigs = fetchLatitudeAndLongitude(locationSearch)
     fetchLatitudeAndLongitude(locationSearch).then((data) => {
       return data
     })
@@ -19,23 +18,22 @@ export function Search() {
 
         return getAllEvents(latitude, longitude, 10)
       })
-      .then((eventos) => { 
-            const newGigs = locationSearch
-    setGigStack(eventos)
+      .then((eventos) => {
+        setGigStack(eventos)
 
       })
 
   }
 
-    return (
-        <View style={styles.container}>
-          <View style={styles.fullWidth}>
-            <TextInput style={styles.textInput} onChangeText={text => setLocationSearch(text)} placeholder="Enter city name here"></TextInput>
+  return (
+    <View style={styles.container}>
+      <View style={styles.fullWidth}>
+        <TextInput style={styles.textInput} onChangeText={text => setLocationSearch(text)} placeholder="Enter city name here"></TextInput>
 
-          </View>
-            <Button onPress={handleLocationGo} title="Go" />
-        </View>
-    )
+      </View>
+      <Button onPress={handleLocationGo} title="Go" />
+    </View>
+  )
 
 }
 
