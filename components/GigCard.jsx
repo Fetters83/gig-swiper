@@ -1,30 +1,62 @@
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+import { useContext, useState } from "react";
+import { Image, StyleSheet, Text, View, Pressable, FlatList, TouchableOpacity } from "react-native";
+import { GigStackContext } from "../contexts/GigStackContext";
 
 export function GigCard({toggleGigInfoVisible}) {
 
+  const {gigStack} = useContext(GigStackContext)
+
+ const [stackNumber, setStackNumber] = useState(0)
+ const imageurl = gigStack[stackNumber].xlargeimageurl 
+
+
+function handleLike() {
+  console.log("pressed")
+  setStackNumber(stackNumber + 1)
+}
+
+console.log(gigStack.length, stackNumber)
+
     return (
-        <View style={[styles.container, styles.shadow]}>
+      <>
+
+    
+{gigStack === "nosearch" || stackNumber === gigStack.length-1 ?
+
+<>
+<Text>Swear Down!</Text>
+</>
+
+
+:
+      
+        (<View style={[styles.container, styles.shadow]}>
+          
           <View style={[styles.row, styles.height50]}>
             <Image style={styles.cardArrows} source={require('../assets/left-arrow-huge.png')}/>
-            <Image style={styles.cardImage} source={require('../assets/paul.png')}/>
-            <Image style={styles.cardArrows} source={require('../assets/right-arrow-huge.png')}/>
+            <Image style={styles.cardImage} source={{uri: imageurl}} />
+
+               <Image style={styles.cardArrows} source={require('../assets/right-arrow-huge.png')}/>
+
           </View>
           <View style={[styles.row, styles.height25, styles.column]}>
-            <Text style={styles.header}>Paul McCartney's Hologram</Text>
-            <Text style={styles.text}>Manchester Academy</Text>
-            <Text style={styles.text}>29th May</Text>
-            <Text style={styles.text}>£14 - 20</Text>
-            
+            <Text style={styles.header}>{gigStack[stackNumber].eventname}</Text>
+            <Text style={styles.text}>{gigStack[stackNumber].venue.name}</Text>
+            <Text style={styles.text}>{gigStack[stackNumber].date}</Text>
+            {gigStack[stackNumber].entryprice ? <Text style={styles.text}>£{gigStack[stackNumber].entryprice}</Text> : null}
           </View>
           <View style={[styles.row, styles.height25]}>
             <Image  style={styles.cardButton} source={require('../assets/nah.png')}/>
             <Pressable style={styles.cardButton} onPress={toggleGigInfoVisible}>
               <Image style={styles.cardButton} source={require('../assets/info.png')}/>
             </Pressable>
-            <Image style={styles.cardButton} source={require('../assets/rock-on.png')}/>
-          
+            <Pressable onPress={handleLike} style={styles.cardButton}  >
+            <Image style={styles.cardButton}  source={require('../assets/rock-on.png')}/>
+          </Pressable>
           </View>
-        </View>
+        </View>)
+}
+        </>
     )
 }
 
@@ -57,13 +89,14 @@ const styles = StyleSheet.create({
       alignContent: 'flex-start',
     },
     cardArrows: {
-      width: "25%",
+      width: "20%",
       objectFit: "contain",
     },
     cardImage: {
-      flex: 1,
       objectFit: "contain",
-      borderRadius: 50,
+      height: '80%',
+      width: '60%',
+      borderRadius: 20,
     },
     cardButton: {
       width: "33%",
@@ -88,6 +121,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,  
         elevation: 5
-    }
+    },
+
   });
   

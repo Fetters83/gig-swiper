@@ -7,8 +7,8 @@ import { fetchLatitudeAndLongitude, getAllEvents } from "../api";
 export function Search() {
 
   const [locationSearch, setLocationSearch] = useState('')
-  const { setGigStack } = useContext(GigStackContext)
-  console.log(locationSearch)
+  const { setGigStack, gigStack } = useContext(GigStackContext)
+
 
   function handleLocationGo() {
     // const newGigs = fetchLatitudeAndLongitude(locationSearch)
@@ -16,12 +16,15 @@ export function Search() {
       return data
     })
       .then(({ latitude, longitude }) => {
-        console.log(latitude, longitude)
-        return getAllEvents(latitude, longitude, 5)
+
+        return getAllEvents(latitude, longitude, 10)
       })
-      .then((eventos) => { console.log(eventos, "SWEAR DONW") })
-    const newGigs = locationSearch
-    setGigStack(newGigs)
+      .then((eventos) => { 
+            const newGigs = locationSearch
+    setGigStack(eventos)
+
+      })
+
   }
 
     return (

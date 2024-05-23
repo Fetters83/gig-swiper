@@ -12,8 +12,6 @@ export function SearchScreen() {
     const { gigInfoVisible, setGigInfoVisible } = useContext(GigInfoVisibleContext)
     const [events ,setEvents] = useState([])
     const { gigStack } = useContext(GigStackContext)
-
-    console.log("gigstack:", gigStack)
     
 useEffect(()=>{
     getAllEvents().then((data)=>{
