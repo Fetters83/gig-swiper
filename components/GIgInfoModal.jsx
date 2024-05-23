@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Pressable, Image, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Pressable, Image, ScrollView, Button, Linking } from "react-native";
 
 
-export function GigInfoModal({toggleGigInfoVisible}) {
+export function GigInfoModal(props) {
+
+  const { toggleGigInfoVisible, currentGig, stackNumber } = props
 
   const [showVenueDetails, setShowVenueDetails] = useState(false)
   const [showGenres, setShowGenres] = useState(false)
-
+  console.log(stackNumber)
+  console.log(currentGig)
   function toggleVenueDetails() {
     setShowVenueDetails(!showVenueDetails)
   }
@@ -16,60 +19,54 @@ export function GigInfoModal({toggleGigInfoVisible}) {
   }
 
 
-    return (
+  return (
 
-          <View style={styles.container}>
+    <View style={styles.container}>
 
-            <Image style={styles.topImage} source={{uri: 'https://d31fr2pwly4c4s.cloudfront.net/d/6/f/1739150_d3263fcd_ibiza-proms-in-manchester-cathedral_1024.jpg'}} /> 
-            <Pressable onPress={toggleGigInfoVisible} style={styles.closeButton}>
-              <Image style={styles.closeButtonImage} source={require('../assets/close.png')} />
-            </Pressable>
+      <Image style={styles.topImage} source={{ uri: currentGig.xlargeimageurl }} />
+      <Pressable onPress={toggleGigInfoVisible} style={styles.closeButton}>
+        <Image style={styles.closeButtonImage} source={require('../assets/close.png')} />
+      </Pressable>
 
-            <ScrollView>
+      <ScrollView>
 
-              <View style={[styles.row, styles.fullWidth, styles.spaceBetween]}>
+        <View style={[styles.row, styles.descriptionWidth, styles.spaceBetween]}>
 
-                <View style={[styles.marginVert, styles.padding]}>
-                  <Text style={styles.largeText}>Event Name</Text>
-                  <Text style={styles.mediumText}>Description of the gig...</Text>
-                </View>
-
-                <View style={[styles.marginVert, styles.padding, styles.dateBox]}>
-                  <Text>Date</Text>
-                  <Text>Doors Open:</Text>
-                  <Text>Doors Close:</Text>
-                </View>
-
-              </View>
-
-              <View style={[styles.marginVert, styles.fullWidth, styles.padding, styles.darkerBackground]}>
-                <Text style={styles.mediumText} onPress={toggleVenueDetails}>Show Venue Details &#8595;</Text>
-                { showVenueDetails && 
-                  <View>
-                    <Text style={styles.smallText}>Venue Name</Text>
-                    <Text style={styles.smallText}>Venue Town</Text>
-                    <Text style={styles.smallText}>Venue Postcode</Text>
-                  </View>
-                }
-              </View>
-            
-              <View style={[styles.marginVert, styles.fullWidth, styles.padding, styles.darkerBackground]}>
-              <Text style={styles.mediumText} onPress={toggleGenres}>Show Genres &#8595;</Text>
-              { showGenres && 
-                  <View>
-                <Text style={styles.smallText}>Genres List</Text>
-                </View>}
-              </View>
-
-              <View style={[styles.marginVert, styles.fullWidth, styles.padding]}>
-                <Text style={styles.smallText}>Link to Skiddle.com</Text>
-              </View>
-
-            </ScrollView>
-
+          <View style={[styles.marginVert, styles.padding]}>
+            <Text style={styles.largeText}>{currentGig.eventname}</Text>
+            <Text style={styles.mediumText}>{currentGig.description}</Text>
           </View>
 
-      )
+          <View style={[styles.marginVert, styles.padding, styles.dateBox]}>
+            <Text>{currentGig.date}</Text>
+            <Text>Doors open:  {currentGig.openingtimes.doorsopen}</Text>
+            <Text>Doors close: {currentGig.openingtimes.doorsclose}</Text>
+          </View>
+
+        </View>
+
+        <View style={[styles.marginVert, styles.fullWidth, styles.padding, styles.darkerBackground]}>
+          <Text style={styles.mediumText} onPress={toggleVenueDetails}>Show Venue Details &#8595;</Text>
+          {showVenueDetails &&
+            <View>
+              <Text style={styles.smallText}>{currentGig.venue.name}</Text>
+              <Text style={styles.smallText}>{currentGig.venue.postcode}</Text>
+              <Text style={styles.smallText}>{currentGig.venue.town}</Text>
+            </View>
+          }
+        </View>
+
+        <View style={[styles.marginVert, styles.fullWidth, styles.padding]}>
+
+          <Button title={"GET TICKETS"} onPress={() => Linking.openURL(currentGig.link)}></Button>
+        
+        </View>
+
+      </ScrollView>
+
+    </View>
+
+  )
 }
 
 const styles = StyleSheet.create({
@@ -123,6 +120,9 @@ const styles = StyleSheet.create({
   fullWidth: {
     width: '100%',
   },
+  descriptionWidth:{
+ width: "60%"
+  },
   largeText: {
     fontSize: 24,
   },
@@ -136,7 +136,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   spaceBetween: {
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    // alignItems: 'space-between'
   },
   closeButton: {
     position: 'absolute',

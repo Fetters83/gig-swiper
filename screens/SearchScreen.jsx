@@ -12,6 +12,9 @@ export function SearchScreen() {
     const { gigInfoVisible, setGigInfoVisible } = useContext(GigInfoVisibleContext)
     const [events ,setEvents] = useState([])
     const { gigStack } = useContext(GigStackContext)
+    const [currentGig, setCurrentGig] = useState({})
+    const [stackNumber, setStackNumber] = useState(0)
+
     
 useEffect(()=>{
     getAllEvents().then((data)=>{
@@ -19,14 +22,19 @@ useEffect(()=>{
 )   
 },[])
 
+useEffect(()=>{
+    setStackNumber(0)
+ 
+},[gigStack])
+
     function toggleGigInfoVisible() {
         setGigInfoVisible(!gigInfoVisible)
     }
 
     return (
         <View style={styles.container}>
-            {gigInfoVisible ? <GigInfoModal gigInfoVisible={gigInfoVisible} toggleGigInfoVisible={toggleGigInfoVisible}/> :
-            <GigCard toggleGigInfoVisible={toggleGigInfoVisible} visible={gigInfoVisible}/>}
+            {gigInfoVisible ? <GigInfoModal stackNumber={stackNumber} currentGig={currentGig} gigInfoVisible={gigInfoVisible} toggleGigInfoVisible={toggleGigInfoVisible}/> :
+            <GigCard stackNumber={stackNumber} setStackNumber={setStackNumber} setCurrentGig={setCurrentGig} toggleGigInfoVisible={toggleGigInfoVisible} visible={gigInfoVisible}/>}
         </View>
     )
 }
