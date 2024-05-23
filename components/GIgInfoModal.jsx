@@ -30,17 +30,17 @@ export function GigInfoModal(props) {
 
       <ScrollView>
 
-        <View style={[styles.row, styles.descriptionWidth, styles.spaceBetween]}>
+        <View style={[styles.row, styles.fullWidth, styles.spaceBetween]}>
 
-          <View style={[styles.marginVert, styles.padding]}>
+          <View style={[styles.descriptionWidth, styles.marginVert, styles.padding]}>
             <Text style={styles.largeText}>{currentGig.eventname}</Text>
-            <Text style={styles.mediumText}>{currentGig.description}</Text>
+            <Text style={[styles.mediumText, styles.marginVert]}>{currentGig.description}</Text>
           </View>
 
           <View style={[styles.marginVert, styles.padding, styles.dateBox]}>
-            <Text>{currentGig.date}</Text>
-            <Text>Doors open:  {currentGig.openingtimes.doorsopen}</Text>
-            <Text>Doors close: {currentGig.openingtimes.doorsclose}</Text>
+            <Text style={styles.marginVert}>{currentGig.date}</Text>
+            <Text >Doors open:  {currentGig.openingtimes.doorsopen}</Text>
+            <Text >Doors close: {currentGig.openingtimes.doorsclose}</Text>
           </View>
 
         </View>
@@ -153,6 +153,9 @@ const styles = StyleSheet.create({
   },
   dateBox: {
     alignItems: 'center',
+  },
+  border: {
+    borderWidth: 2,
   }
 
 });
