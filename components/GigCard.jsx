@@ -8,7 +8,7 @@ export function GigCard(props) {
   const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber } = props
   const { gigStack } = useContext(GigStackContext)
   const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
-  const [spotifyUrl, setSpotifyUrl] = useState('')
+  const [spotifyUrl, setSpotifyUrl] = useState(false)
 
   const imageurl = gigStack[stackNumber].xlargeimageurl
 
@@ -28,22 +28,23 @@ export function GigCard(props) {
   useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
 
   console.log(gigStack.length, stackNumber)
-/* 
-  if(gigStack[stackNumber].artists!==undefined){
-    console.log(gigStack[stackNumber].artists[0].spotifymp3url, " inside gigcard - gigstack artists")
-  }
-  */
 
-  if(gigStack[stackNumber].artists) {
+ 
+   if(gigStack[stackNumber].artists) {
     if(gigStack[stackNumber].artists[0]){
 
       if(gigStack[stackNumber].artists[0].spotifymp3url) {
-      setSpotifyUrl(gigStack[stackNumber].artists[0].spotifymp3url)
+
+        
+      setSpotifyUrl(true) 
+   
       }
     }
-   
+
     
-  }
+  }  
+
+  
 
   return (
     <>
@@ -82,6 +83,7 @@ export function GigCard(props) {
               <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
             </Pressable>
           </View>
+           {spotifyUrl && <View><Text>Play audio preview</Text></View>}
         </View>)
       }
     </>
