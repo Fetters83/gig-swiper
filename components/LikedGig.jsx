@@ -1,23 +1,18 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, Pressable, useAnimatedValue} from "react-native";
-import {SavedGigInfo} from './SavedGigInfo'
+import { SavedGigInfo } from './SavedGigInfo'
 
 export const LikedGig = (props) => {
 
-    const {id, toggleGigInfoVisible, eventos} = props
-    const { title, location, imageurl, description, eventname, doorsopening, doorsclosing, date} =eventos 
+    const { eventos } = props;
+    const { title, location, imageurl} = eventos;
+    const [isInfoPressed, setIsInfoPressed] = useState(false);
+    const [currentGig, setCurrentGig] = useState({});
 
-    const [isInfoPressed, setIsInfoPressed] = useState(false)
-    const [currentGig, setCurrentGig] = useState({})
     function handleInfoPress(props) {
-        setIsInfoPressed(!isInfoPressed)
-        setCurrentGig(props.eventos)
+        setIsInfoPressed(!isInfoPressed);
+        setCurrentGig(props.eventos);
     }
-console.log(currentGig, "CG")
-    useEffect(()=>{
-        
-        console.log(isInfoPressed)
-    },[currentGig, isInfoPressed])
 
     return (
         <View style={styles.column}>
@@ -86,5 +81,5 @@ const styles = StyleSheet.create({
     },
     infoArea: {
         margin: 20,
-    }
+    },
 });
