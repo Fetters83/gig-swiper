@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { StyleSheet, Text, View, Pressable, Image, ScrollView, Button, Linking } from "react-native";
+import { LikedGigContext } from "../contexts/LikedGigContext";
 
 
 export function SavedGigInfo(currentGig) {
 
-  const {eventname, description, date, doorsopening, doorsclosing, lastentry, location, postcode, town, link} = currentGig.currentGig
+  const {likedGigs, setLikedGigs}= useContext(LikedGigContext)
 
+  const {id, eventname, description, date, doorsopening, doorsclosing, lastentry, location, postcode, town, link} = currentGig.currentGig
+
+  function removeLikedGig(selectedId) {
+    setLikedGigs(oldValues =>{
+      return oldValues.filter((gig) => gig.id !== selectedId)
+    })
+  }
 
   return (
     <>
@@ -32,6 +40,7 @@ export function SavedGigInfo(currentGig) {
 
         <View style={styles.section}>
         <Button title={"GET TICKETS"} onPress={() => Linking.openURL(link)}></Button>
+        <Button title={"REMOVE"} onPress={() => removeLikedGig(id)}></Button>
         </View>
     </>
 
