@@ -8,8 +8,6 @@ export function GigInfoModal(props) {
 
   const [showVenueDetails, setShowVenueDetails] = useState(false)
   const [showGenres, setShowGenres] = useState(false)
-  console.log(stackNumber)
-  console.log(currentGig)
   function toggleVenueDetails() {
     setShowVenueDetails(!showVenueDetails)
   }

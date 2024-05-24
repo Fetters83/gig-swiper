@@ -21,10 +21,13 @@ export function GigCard(props) {
       title : gigStack[stackNumber].eventname,
       location :gigStack[stackNumber].venue.name,
       imageurl: gigStack[stackNumber].xlargeimageurl,
+      description: gigStack[stackNumber].description,
+      eventname: gigStack[stackNumber].eventname,
+      doorsopening: gigStack[stackNumber].openingtimes.doorsopen,
+      doorsclosing: gigStack[stackNumber].openingtimes.doorsclose,
     }
     setLikedGigs([...likedGigs, newLike])
     setLikedIds([...likedIds, gigStack[stackNumber].id ])
-
   }
   useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
 
