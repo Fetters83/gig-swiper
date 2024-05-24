@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+
+import { Image, StyleSheet, Text, View, Pressable, FlatList, TouchableOpacity, Button } from "react-native";
+
 import { GigStackContext } from "../contexts/GigStackContext";
 import { LikedGigContext } from "../contexts/LikedGigContext";
 
@@ -7,18 +9,19 @@ export function GigCard(props) {
 
   const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber } = props
   const { gigStack } = useContext(GigStackContext)
-  const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
+  const { setLikedGigs, likedGigs } = useContext(LikedGigContext)
   const [likedIds, setLikedIds] = useState([])
-  const [ dislikedIds,setDislikedIds] = useState([])
+  const [dislikedIds, setDislikedIds] = useState([])
+
   const imageurl = gigStack[stackNumber].xlargeimageurl
 
   function handleLike() {
     setStackNumber(stackNumber + 1)
     setCurrentGig(gigStack[stackNumber])
-    const newLike= {
+    const newLike = {
       id: gigStack[stackNumber].id,
-      title : gigStack[stackNumber].eventname,
-      location :gigStack[stackNumber].venue.name,
+      title: gigStack[stackNumber].eventname,
+      location: gigStack[stackNumber].venue.name,
       imageurl: gigStack[stackNumber].xlargeimageurl,
       description: gigStack[stackNumber].description,
       eventname: gigStack[stackNumber].eventname,
@@ -31,42 +34,50 @@ export function GigCard(props) {
       link: gigStack[stackNumber].link
     }
     setLikedGigs([...likedGigs, newLike])
-    setLikedIds([...likedIds, gigStack[stackNumber].id ]
+
+    setLikedIds([...likedIds, gigStack[stackNumber].id]
+
     )
+    console.log(likedGigs)
+  }
+  useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
+
+  function handleDislikeById() {
+    
+    setStackNumber(stackNumber + 1)
+    setCurrentGig(gigStack[stackNumber])
+    if (dislikedIds.length === 0) {
+      setDislikedIds([gigStack[stackNumber].id])
+    }
+    else { dislikedIds.push(gigStack[stackNumber].id) }
+    console.log("put on redlist", dislikedIds)
+
   }
 
-  function handleDislikeById(){
-    console.log("pressed dislike button")
-    console.log(stackNumber)
 
-  
-          setStackNumber(stackNumber + 1)
-          setCurrentGig(gigStack[stackNumber])
-        if(dislikedIds.length === 0){
-          setDislikedIds([gigStack[stackNumber].id ])  }
-          else{ dislikedIds.push(gigStack[stackNumber].id)} 
-            console.log("put on redlist", dislikedIds)
-    
-        }
-        
-        
-useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
+   function handleReset(){
+console.log("reset pressed")
+    setDislikedIds([])
 
-{ if (likedIds.includes(gigStack[stackNumber].id && dislikedIds.includes(gigStack[stackNumber].id))){
-   setStackNumber(stackNumber + 1)
-      
-  }}
+   }
+  {
+    if (likedIds.includes(gigStack[stackNumber].id || dislikedIds.includes(gigStack[stackNumber].id))) {
+      setStackNumber(stackNumber + 1)
+
+    }
+  }
 
 
 
   return (
     <>
       {gigStack === "nosearch" || stackNumber === gigStack.length - 1 ?
-        
-          <Text style={styles.typeACity}>Type a place name to search</Text>
-      
-        :
 
+        <>
+          <Text style={styles.typeACity}>Type a place name to search</Text>
+        </>
+
+        :
         (<View style={[styles.container, styles.shadow]}>
           <View style={[styles.row, styles.height50]}>
             <Image style={styles.cardArrowL} source={require('../assets/left.png')} />
@@ -85,11 +96,11 @@ useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack
             {gigStack[stackNumber].entryprice ? <Text style={styles.text}>£{gigStack[stackNumber].entryprice}</Text> : null}
           </View>
 
-          <View style={[styles.row, styles.height25, styles.darken]}>
+
+          <View style={[styles.row, styles.height25]}>
             <Pressable style={styles.cardButton} onPress={handleDislikeById}>
-              <Image style={styles.cardButtonImage} source={require('../assets/nah.png')} />
+              <Image style={styles.cardButton} source={require('../assets/nah.png')} />
             </Pressable>
-            {/* <Disliked props={props}/> */}
             <Pressable style={styles.cardButton} onPress={toggleGigInfoVisible}>
               <Image style={styles.infoButton} source={require('../assets/info.png')} />
             </Pressable>
@@ -98,8 +109,17 @@ useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack
             </Pressable>
           </View>
 
-        </View>)
+
+          {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
+        </View>
+        
+      
+      
+      )
+
       }
+   
+
     </>
   )
 }
@@ -172,6 +192,9 @@ const styles = StyleSheet.create({
     width: "100%",
     objectFit: "contain",
     alignItems: 'center',
+  },
+  resetButton:{
+  
   },
   header: {
     fontSize: 20,
