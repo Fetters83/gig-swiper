@@ -8,6 +8,7 @@ export function GigCard(props) {
   const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber } = props
   const { gigStack } = useContext(GigStackContext)
   const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
+  const [likedIds, setLikedIds] = useState([])
 
   const imageurl = gigStack[stackNumber].xlargeimageurl
 
@@ -26,12 +27,14 @@ export function GigCard(props) {
       doorsclosing: gigStack[stackNumber].openingtimes.doorsclose,
     }
     setLikedGigs([...likedGigs, newLike])
-console.log(likedGigs, 'ttt');
+    setLikedIds([...likedIds, gigStack[stackNumber].id ])
   }
   useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
 
-  console.log(gigStack.length, stackNumber)
+  { if (likedIds.includes(gigStack[stackNumber].id)){
+    setStackNumber(stackNumber + 1)
 
+  }}
   return (
     <>
 
