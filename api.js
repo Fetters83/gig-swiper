@@ -67,14 +67,13 @@ function getSpotifyToken() {
     });
 }
 
-function fetchArtistId(token, artistName) {
-    console.log(artistName, token);
+function fetchArtistId(token, requiredArtistsName) {
     return axios.get(`https://api.spotify.com/v1/search`, {
         params: {
-            q: artistName,
+            q: requiredArtistsName,
             type: "artist",
             market: "GB",
-            limit: 1,
+            limit: 5,
             offset: 0
         },
         headers: {
@@ -83,11 +82,24 @@ function fetchArtistId(token, artistName) {
         }
     )
     .then((response) => {
-        return response.data.artists.items[0].id;
+        let artists = response.data.artists.items
+        return getRequiredArtistId(requiredArtistsName, artists)
     })
     .catch((error) => {
-        console.log(error);
+        return new Promise.reject(error)
     })
+}
+
+
+function getRequiredArtistId(requiredArtistsName, artists) {
+    const matchingArtist = artists.filter((artist) => {
+        return artist.name.toLowerCase() === requiredArtistsName.toLowerCase()
+    });
+    if (matchingArtist.length > 0) {
+        return matchingArtist[0].id
+    } else {
+        return new Promise.reject("no matching artist found")
+    }
 }
 
 function fetchArtistTopTracks(token, artistId) {
@@ -104,7 +116,7 @@ function fetchArtistTopTracks(token, artistId) {
         return response.data
     })
     .catch((error) => {
-        console.log(error);
+        console.log('Error caught fetching top tracks:', error);
     })
 }
 
@@ -118,6 +130,10 @@ getSpotifyToken()
 .then((artistId) => {
     fetchArtistTopTracks(token, artistId)
 })
+.catch((err) => {
+    console.log('line 150 err caught:', err);
+})
 
+// [0].external_urls.spotify);
 // Change skiddle to only search for music
 // Check what potify returns if no artist
