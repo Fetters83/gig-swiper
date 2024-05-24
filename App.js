@@ -13,7 +13,6 @@ import { useContext } from "react";
 import { UserContext } from "./contexts/UserContext";
 
 import { useState } from "react";
-import GigInfoVisibleContext from "./contexts/GigInfoVisibleContext";
 import { Header } from "./components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LogIn from "./components/LogIn";
@@ -26,7 +25,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [gigInfoVisible, setGigInfoVisible] = useState(false);
+
   const [gigStack, setGigStack] = useState("nosearch");
   const [likedGigs, setLikedGigs] = useState([])
 
@@ -37,9 +36,6 @@ export default function App() {
     return (
 
       <LikedGigContext.Provider value={{likedGigs, setLikedGigs}}>
-      <GigInfoVisibleContext.Provider
-        value={{ gigInfoVisible, setGigInfoVisible }}
-      >
         <GigStackContext.Provider value={{ gigStack, setGigStack }}>
           <NavigationContainer>
             <Tab.Navigator screenOptions={headerStyle}>
@@ -76,7 +72,6 @@ export default function App() {
             </Tab.Navigator>
           </NavigationContainer>
         </GigStackContext.Provider>
-      </GigInfoVisibleContext.Provider>
       </LikedGigContext.Provider>
     );
   } else {

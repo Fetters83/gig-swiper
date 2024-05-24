@@ -1,7 +1,6 @@
 import { View, Text, Button, Pressable, Modal, FlatList, SafeAreaView } from "react-native";
 import { GigCard } from "../components/GigCard";
 import { useContext, useEffect, useState } from "react";
-import GigInfoVisibleContext from "../contexts/GigInfoVisibleContext";
 import { GigInfoModal } from "../components/GIgInfoModal";
 import { getAllEvents } from "../api";
 import { StyleSheet } from "react-native";
@@ -9,7 +8,7 @@ import { GigStackContext } from "../contexts/GigStackContext";
 
 
 export function SearchScreen() {
-    const { gigInfoVisible, setGigInfoVisible } = useContext(GigInfoVisibleContext)
+    const [gigInfoVisible, setGigInfoVisible] = useState(false);
     const [events ,setEvents] = useState([])
     const { gigStack } = useContext(GigStackContext)
     const [currentGig, setCurrentGig] = useState({})
