@@ -3,12 +3,14 @@ import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-nati
 import { GigStackContext } from "../contexts/GigStackContext";
 import { fetchLatitudeAndLongitude, getAllEvents } from "../api";
 import { LikedGigContext } from "../contexts/LikedGigContext";
+import { DislikedGigContext } from "../contexts/DislikedGigContext";
 
 export function Search() {
 
   const [locationSearch, setLocationSearch] = useState('')
   const { setGigStack, gigStack } = useContext(GigStackContext)
   const { setLikedGigs, likedGigs } = useContext(LikedGigContext)
+  const { dislikedIds, setDislikedIds} = useContext( DislikedGigContext)
 
 
   function handleLocationGo() {
@@ -23,10 +25,7 @@ export function Search() {
       })
       .then((eventos) => {
         if (likedGigs.length > 0) {
-          console.log(eventos, "all events")
-          console.log(likedGigs, "liked events")
-          let filter = eventos.filter(event => !likedGigs.includes(event.id))
-
+          let filter = eventos.filter(event => !likedGigs.includes(event.id) && !dislikedIds.includes(event.id))
           setGigStack(filter)
         } else
           setGigStack(eventos)

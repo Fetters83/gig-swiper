@@ -20,6 +20,7 @@ import { headerStyle } from "./styles/Header";
 import { Search } from "./components/Search";
 import { GigStackContext } from "./contexts/GigStackContext";
 import { LikedGigContext } from "./contexts/LikedGigContext";
+import { DislikedGigContext } from "./contexts/DislikedGigContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,12 +28,14 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [gigStack, setGigStack] = useState("nosearch");
   const [likedGigs, setLikedGigs] = useState([]);
+  const [dislikedIds, setDislikedIds] = useState([])
 
   const { user } = UseAuth();
 
   if (user) {
     return (
       <LikedGigContext.Provider value={{ likedGigs, setLikedGigs }}>
+        <DislikedGigContext.Provider value={{dislikedIds , setDislikedIds}}>
         <GigStackContext.Provider value={{ gigStack, setGigStack }}>
           <NavigationContainer>
             <Tab.Navigator screenOptions={headerStyle}>
@@ -69,6 +72,7 @@ export default function App() {
             </Tab.Navigator>
           </NavigationContainer>
         </GigStackContext.Provider>
+        </DislikedGigContext.Provider>
       </LikedGigContext.Provider>
     );
   } else {

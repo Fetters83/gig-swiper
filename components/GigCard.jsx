@@ -4,6 +4,7 @@ import { Image, StyleSheet, Text, View, Pressable, FlatList, TouchableOpacity, B
 
 import { GigStackContext } from "../contexts/GigStackContext";
 import { LikedGigContext } from "../contexts/LikedGigContext";
+import { DislikedGigContext } from "../contexts/DislikedGigContext";
 
 export function GigCard(props) {
 
@@ -11,7 +12,7 @@ export function GigCard(props) {
   const { gigStack } = useContext(GigStackContext)
   const { setLikedGigs, likedGigs } = useContext(LikedGigContext)
   const [likedIds, setLikedIds] = useState([])
-  const [dislikedIds, setDislikedIds] = useState([])
+  const {dislikedIds, setDislikedIds} = useContext(DislikedGigContext)
 
   const imageurl = gigStack[stackNumber].xlargeimageurl
 
@@ -38,7 +39,6 @@ export function GigCard(props) {
     setLikedIds([...likedIds, gigStack[stackNumber].id]
 
     )
-    console.log(likedGigs)
   }
   useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
 
