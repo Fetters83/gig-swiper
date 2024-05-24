@@ -28,6 +28,11 @@ export function GigCard(props) {
       eventname: gigStack[stackNumber].eventname,
       doorsopening: gigStack[stackNumber].openingtimes.doorsopen,
       doorsclosing: gigStack[stackNumber].openingtimes.doorsclose,
+      lastentry: gigStack[stackNumber].openingtimes.lastentry,
+      date: gigStack[stackNumber].date,
+      town: gigStack[stackNumber].venue.town,
+      postcode: gigStack[stackNumber].venue.postcode,
+      link: gigStack[stackNumber].link
     }
     setLikedGigs([...likedGigs, newLike])
     setLikedIds([...likedIds, gigStack[stackNumber].id ]
