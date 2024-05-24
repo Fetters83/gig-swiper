@@ -2,15 +2,18 @@ import { useContext, useEffect, useState } from "react";
 import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { GigStackContext } from "../contexts/GigStackContext";
 import { fetchLatitudeAndLongitude, getAllEvents } from "../api";
-
+import { LikedGigContext } from "../contexts/LikedGigContext";
 
 export function Search() {
 
   const [locationSearch, setLocationSearch] = useState('')
   const { setGigStack, gigStack } = useContext(GigStackContext)
+  const { setLikedGigs, likedGigs } = useContext(LikedGigContext)
 
 
   function handleLocationGo() {
+
+
     fetchLatitudeAndLongitude(locationSearch).then((data) => {
       return data
     })
@@ -19,7 +22,14 @@ export function Search() {
         return getAllEvents(latitude, longitude, 10)
       })
       .then((eventos) => {
-        setGigStack(eventos)
+        if (likedGigs.length > 0) {
+          console.log(eventos, "all events")
+          console.log(likedGigs, "liked events")
+          let filter = eventos.filter(event => !likedGigs.includes(event.id))
+
+          setGigStack(filter)
+        } else
+          setGigStack(eventos)
 
       })
 

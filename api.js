@@ -14,7 +14,7 @@ export function getAllEvents(latitude, longitude, radius) {
                     latitude: latitude,
                     longitude: longitude,
                     radius: radius,
-                    limit: 100,
+                    limit: 50,
                 },
             }
         )
