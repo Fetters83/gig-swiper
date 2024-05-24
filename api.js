@@ -67,7 +67,7 @@ function getSpotifyToken() {
     });
 }
 
-function fetchArtistId(artistName, token) {
+function fetchArtistId(token, artistName) {
     console.log(artistName, token);
     return axios.get(`https://api.spotify.com/v1/search`, {
         params: {
@@ -90,14 +90,34 @@ function fetchArtistId(artistName, token) {
     })
 }
 
-function getArtistTopTracks(token) {
-
+function fetchArtistTopTracks(token, artistId) {
+    return axios.get(`https://api.spotify.com/v1/artists/${artistId}/top-tracks`, {
+        params: {
+            market: "GB",
+        },
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+        }
+    )
+    .then((response) => {
+        return response.data
+    })
+    .catch((error) => {
+        console.log(error);
+    })
 }
 
+let token = ''
+
 getSpotifyToken()
-.then((token) => {
-    return fetchArtistId('Taylor Swift', token)
+.then((response) => {
+    token = response
+    return fetchArtistId(token, 'Taylor Swift')
 })
-.then((artistID) => {
-    console.log(artistID);
+.then((artistId) => {
+    fetchArtistTopTracks(token, artistId)
 })
+
+// Change skiddle to only search for music
+// Check what potify returns if no artist
