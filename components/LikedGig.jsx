@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StyleSheet, Text, View, Image, Pressable, useAnimatedValue} from "react-native";
 
 export const LikedGig = (props) => {
-    console.log(props, 'rory');
+
     const {toggleGigInfoVisible, eventos, currentGig} = props
     const { title, location, imageurl, description, eventname, doorsopening, doorsclosing} =eventos 
     const [isInfoPressed, setIsInfoPressed] = useState(false)
