@@ -8,9 +8,6 @@ export function SavedScreen({toggleGigInfoVisible}) {
 
 const {likedGigs}= useContext(LikedGigContext)
 
- 
-    
-
     return (
         <ScrollView>
             {likedGigs.map((eventos)=>{
