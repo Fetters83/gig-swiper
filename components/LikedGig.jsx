@@ -1,9 +1,16 @@
-import { StyleSheet, Text, View, Image, Pressable} from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, View, Image, Pressable, useAnimatedValue} from "react-native";
 
 export const LikedGig = (props) => {
-   const {toggleGigInfoVisible, eventos} = props
-   const { title, location, imageurl } =eventos
-   console.log(title)
+    console.log(props, 'rory');
+    const {toggleGigInfoVisible, eventos, currentGig} = props
+    const { title, location, imageurl, description, eventname, doorsopening, doorsclosing} =eventos 
+    const [isInfoPressed, setIsInfoPressed] = useState(false)
+    function handleInfoPress() {
+        setIsInfoPressed(true)
+        return isInfoPressed ? console.log('sorta works') : null
+    }
+
     return (
         <View style={styles.separator}>
             <Image style={styles.gigImage} source={{ uri: imageurl }}/>
@@ -12,7 +19,7 @@ export const LikedGig = (props) => {
                 <Text style={styles.text}>{location}</Text>
             </View>
             <View>
-            <Pressable style={styles.infoButton} onPress={toggleGigInfoVisible}>
+            <Pressable style={styles.infoButton} onPress={handleInfoPress}>
               <Image style={styles.infoButton} source={require('../assets/info.png')}/>
             </Pressable>
             </View>
