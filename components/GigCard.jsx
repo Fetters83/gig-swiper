@@ -99,7 +99,7 @@ console.log("reset pressed")
 
           <View style={[styles.row, styles.height25]}>
             <Pressable style={styles.cardButton} onPress={handleDislikeById}>
-              <Image style={styles.cardButton} source={require('../assets/nah.png')} />
+              <Image style={styles.cardButtonImage} source={require('../assets/nah.png')} />
             </Pressable>
             <Pressable style={styles.cardButton} onPress={toggleGigInfoVisible}>
               <Image style={styles.infoButton} source={require('../assets/info.png')} />
