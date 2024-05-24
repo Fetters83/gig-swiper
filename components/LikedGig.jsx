@@ -3,8 +3,10 @@ import { StyleSheet, Text, View, Image, Pressable, useAnimatedValue} from "react
 import {SavedGigInfo} from './SavedGigInfo'
 
 export const LikedGig = (props) => {
+
     const {id, toggleGigInfoVisible, eventos} = props
     const { title, location, imageurl, description, eventname, doorsopening, doorsclosing, date} =eventos 
+
     const [isInfoPressed, setIsInfoPressed] = useState(false)
     const [currentGig, setCurrentGig] = useState({})
     function handleInfoPress(props) {

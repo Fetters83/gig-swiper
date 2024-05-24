@@ -9,11 +9,14 @@ export function GigCard(props) {
   const { gigStack } = useContext(GigStackContext)
   const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
   const [likedIds, setLikedIds] = useState([])
+  const [ dislikedIds,setDislikedIds] = useState([])
+
 
   const imageurl = gigStack[stackNumber].xlargeimageurl
 
 
   function handleLike() {
+    console.log(stackNumber)
     setStackNumber(stackNumber + 1)
     setCurrentGig(gigStack[stackNumber])
     const newLike= {
@@ -32,14 +35,36 @@ export function GigCard(props) {
       link: gigStack[stackNumber].link
     }
     setLikedGigs([...likedGigs, newLike])
-    setLikedIds([...likedIds, gigStack[stackNumber].id ])
+    setLikedIds([...likedIds, gigStack[stackNumber].id ]
+    
+    )
   }
-  useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
 
-  { if (likedIds.includes(gigStack[stackNumber].id)){
-    setStackNumber(stackNumber + 1)
 
+  function handleDislikeById(){
+    console.log("pressed dislike button")
+    console.log(stackNumber)
+
+  
+          setStackNumber(stackNumber + 1)
+          setCurrentGig(gigStack[stackNumber])
+        if(dislikedIds.length === 0){
+          setDislikedIds([gigStack[stackNumber].id ])  }
+          else{ dislikedIds.push(gigStack[stackNumber].id)} 
+            console.log("put on redlist", dislikedIds)
+    
+        }
+        
+        
+useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
+
+{ if (likedIds.includes(gigStack[stackNumber].id && dislikedIds.includes(gigStack[stackNumber].id))){
+   setStackNumber(stackNumber + 1)
+      
   }}
+
+
+
   return (
     <>
 
@@ -68,8 +93,18 @@ export function GigCard(props) {
             <Text style={styles.text}>{gigStack[stackNumber].date}</Text>
             {gigStack[stackNumber].entryprice ? <Text style={styles.text}>£{gigStack[stackNumber].entryprice}</Text> : null}
           </View>
+
+
+
           <View style={[styles.row, styles.height25]}>
+            <Pressable style={styles.cardButton} onPress={handleDislikeById}>
             <Image style={styles.cardButton} source={require('../assets/nah.png')} />
+            </Pressable>
+
+
+
+
+            {/* <Disliked props={props}/> */}
             <Pressable style={styles.cardButton} onPress={toggleGigInfoVisible}>
               <Image style={styles.cardButton} source={require('../assets/info.png')} />
             </Pressable>
