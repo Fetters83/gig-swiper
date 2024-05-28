@@ -25,24 +25,31 @@ export function GigCard(props) {
     setLikedGigs([...likedGigs, newLike])
 
   }
-  useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
+  useEffect(() => { setCurrentGig(gigStack[stackNumber]) 
+    setSpotifyUrl(false)
+    if(gigStack[stackNumber].artists) {
+      if(gigStack[stackNumber].artists[0]){
+  
+        if(gigStack[stackNumber].artists[0].spotifymp3url) {
+          console.log(gigStack[stackNumber].artists[0].spotifymp3url)
+  
+          
+        setSpotifyUrl(true) 
+     
+        }else {
+          setSpotifyUrl(false)
+        }
+      }
+  
+      
+    }  
+
+  }, [stackNumber, gigStack])
 
   console.log(gigStack.length, stackNumber)
 
  
-   if(gigStack[stackNumber].artists) {
-    if(gigStack[stackNumber].artists[0]){
 
-      if(gigStack[stackNumber].artists[0].spotifymp3url) {
-
-        
-      setSpotifyUrl(true) 
-   
-      }
-    }
-
-    
-  }  
 
   
 
@@ -83,7 +90,7 @@ export function GigCard(props) {
               <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
             </Pressable>
           </View>
-           {spotifyUrl && <View><Text>Play audio preview</Text></View>}
+           {spotifyUrl ? <View><Text>Play audio preview</Text></View>:null}
         </View>)
       }
     </>
