@@ -5,6 +5,12 @@ import { GigInfoModal } from "../components/GIgInfoModal";
 import { getAllEvents } from "../api";
 import { StyleSheet } from "react-native";
 import { GigStackContext } from "../contexts/GigStackContext";
+import { LikedGigContext } from "../contexts/LikedGigContext";
+import writeToDatabase from "../writeToDatabase";
+import UseAuth from "../Hooks/UseAuth";
+import { UserContext } from "../contexts/UserContext";
+import getLikedGigs from "../getLikedGigs";
+
 
 
 export function SearchScreen() {
@@ -13,6 +19,22 @@ export function SearchScreen() {
     const { gigStack } = useContext(GigStackContext)
     const [currentGig, setCurrentGig] = useState({})
     const [stackNumber, setStackNumber] = useState(0)
+    const {likedGigs, setLikedGigs}= useContext(LikedGigContext) 
+        const { user } = UseAuth()
+
+        useEffect(()=>{
+            // setLikedGigs([])
+            getLikedGigs(user)
+            .then((data)=>{
+                console.log(data, "THIS IS DATA IN PROMISE")
+                setLikedGigs(data)
+            })
+        },[user])
+
+
+    useEffect(() => {
+        writeToDatabase(likedGigs, user);
+      }, [likedGigs]);
 
 
     /* const eventArtistInfo = {}
@@ -32,6 +54,7 @@ useEffect(()=>{
     setEvents(data)}
 )   
 },[])
+
 
 useEffect(()=>{
     setStackNumber(0)

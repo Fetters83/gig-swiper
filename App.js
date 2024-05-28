@@ -9,7 +9,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import UseAuth from "./Hooks/UseAuth";
 import SignUp from "./components/SingUp";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 
 import { useState } from "react";
@@ -20,9 +20,17 @@ import { headerStyle } from "./styles/Header";
 import { Search } from "./components/Search";
 import { GigStackContext } from "./contexts/GigStackContext";
 import { LikedGigContext } from "./contexts/LikedGigContext";
+
+import writeToDatabase from "./writeToDatabase";
+import getLikedGigs from "./getLikedGigs";
+
+import { collection, getDocs } from "firebase/firestore";
+import db from "./firebaseConfig";
+
 import { DislikedGigContext } from "./contexts/DislikedGigContext";
 import { RadiusContext } from "./contexts/RadiusContext";
 import { LoadingContext } from "./contexts/LoadingContext";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -30,60 +38,65 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [gigStack, setGigStack] = useState("nosearch");
   const [likedGigs, setLikedGigs] = useState([]);
+
   const [dislikedIds, setDislikedIds] = useState([])
   const [radius, setRadius] = useState(10)
   const [loading, setLoading] = useState(false)
 
   const { user } = UseAuth();
 
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  // useEffect(() => {
+  //   getLikedGigs(user);
+  // }, []);
+
   if (user) {
     return (
-      <LoadingContext.Provider value={{loading, setLoading}}>
-      <LikedGigContext.Provider value={{ likedGigs, setLikedGigs }}>
-        <DislikedGigContext.Provider value={{dislikedIds , setDislikedIds}}>
-          <RadiusContext.Provider value={{radius, setRadius}}>
-        <GigStackContext.Provider value={{ gigStack, setGigStack }}>
-          <NavigationContainer>
-            <Tab.Navigator screenOptions={headerStyle}>
-              <Tab.Screen
-                name="Search"
-                component={SearchScreen}
-                options={{
-                  headerTitle: Search,
-                  tabBarIcon: ({ size, focused, color }) => {
-                    return (
-                      <TouchableOpacity>
-                      <Image
-                        style={styles.tabImage}
-                        source={require("./assets/home.png")}
-                      />
-                      </TouchableOpacity>
-                    );
-                  },
-                }}
-              />
 
-              <Tab.Screen
-                name="Saved"
-                component={SavedScreen}
-                options={{
-                  tabBarIcon: ({ size, focused, color }) => {
-                    return (
-                      <Image
-                        style={styles.tabImage}
-                        source={require("./assets/saved.png")}
-                      />
-                    );
-                  },
-                }}
-              />
-            </Tab.Navigator>
-          </NavigationContainer>
-        </GigStackContext.Provider>
-        </RadiusContext.Provider>
-        </DislikedGigContext.Provider>
-      </LikedGigContext.Provider>
-      </LoadingContext.Provider>
+      <UserContext.Provider value={loggedInUser}>
+        <LikedGigContext.Provider value={{ likedGigs, setLikedGigs }}>
+          <GigStackContext.Provider value={{ gigStack, setGigStack }}>
+            <NavigationContainer>
+              <Tab.Navigator screenOptions={headerStyle}>
+                <Tab.Screen
+                  name="Search"
+                  component={SearchScreen}
+                  options={{
+                    headerTitle: Search,
+                    tabBarIcon: ({ size, focused, color }) => {
+                      return (
+                        <TouchableOpacity>
+                          <Image
+                            style={styles.tabImage}
+                            source={require("./assets/home.png")}
+                          />
+                        </TouchableOpacity>
+                      );
+                    },
+                  }}
+                />
+
+                <Tab.Screen
+                  name="Saved"
+                  component={SavedScreen}
+                  options={{
+                    tabBarIcon: ({ size, focused, color }) => {
+                      return (
+                        <Image
+                          style={styles.tabImage}
+                          source={require("./assets/saved.png")}
+                        />
+                      );
+                    },
+                  }}
+                />
+              </Tab.Navigator>
+            </NavigationContainer>
+          </GigStackContext.Provider>
+        </LikedGigContext.Provider>
+      </UserContext.Provider>
+
     );
   } else {
     return (
