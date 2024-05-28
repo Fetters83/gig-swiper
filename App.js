@@ -43,10 +43,12 @@ export default function App() {
                   headerTitle: Search,
                   tabBarIcon: ({ size, focused, color }) => {
                     return (
+                      <TouchableOpacity>
                       <Image
                         style={styles.tabImage}
                         source={require("./assets/home.png")}
                       />
+                      </TouchableOpacity>
                     );
                   },
                 }}
@@ -86,7 +88,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "silver",
     alignItems: "center",
     justifyContent: "center",
   },

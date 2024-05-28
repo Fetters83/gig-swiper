@@ -106,7 +106,7 @@ useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ddd",
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "flex-start",
     width: '90%',
