@@ -13,33 +13,29 @@ import { useContext } from "react";
 import { UserContext } from "./contexts/UserContext";
 
 import { useState } from "react";
-import GigInfoVisibleContext from "./contexts/GigInfoVisibleContext";
 import { Header } from "./components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LogIn from "./components/LogIn";
 import { headerStyle } from "./styles/Header";
 import { Search } from "./components/Search";
 import { GigStackContext } from "./contexts/GigStackContext";
-import { LikedGigContext } from './contexts/LikedGigContext'
+import { LikedGigContext } from "./contexts/LikedGigContext";
+import { DislikedGigContext } from "./contexts/DislikedGigContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [gigInfoVisible, setGigInfoVisible] = useState(false);
   const [gigStack, setGigStack] = useState("nosearch");
-  const [likedGigs, setLikedGigs] = useState([])
-
+  const [likedGigs, setLikedGigs] = useState([]);
+  const [dislikedIds, setDislikedIds] = useState([])
 
   const { user } = UseAuth();
 
   if (user) {
     return (
-
-      <LikedGigContext.Provider value={{likedGigs, setLikedGigs}}>
-      <GigInfoVisibleContext.Provider
-        value={{ gigInfoVisible, setGigInfoVisible }}
-      >
+      <LikedGigContext.Provider value={{ likedGigs, setLikedGigs }}>
+        <DislikedGigContext.Provider value={{dislikedIds , setDislikedIds}}>
         <GigStackContext.Provider value={{ gigStack, setGigStack }}>
           <NavigationContainer>
             <Tab.Navigator screenOptions={headerStyle}>
@@ -50,10 +46,12 @@ export default function App() {
                   headerTitle: Search,
                   tabBarIcon: ({ size, focused, color }) => {
                     return (
+                      <TouchableOpacity>
                       <Image
                         style={styles.tabImage}
-                        source={require("./assets/search.png")}
+                        source={require("./assets/home.png")}
                       />
+                      </TouchableOpacity>
                     );
                   },
                 }}
@@ -76,7 +74,7 @@ export default function App() {
             </Tab.Navigator>
           </NavigationContainer>
         </GigStackContext.Provider>
-      </GigInfoVisibleContext.Provider>
+        </DislikedGigContext.Provider>
       </LikedGigContext.Provider>
     );
   } else {
@@ -94,7 +92,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "silver",
     alignItems: "center",
     justifyContent: "center",
   },

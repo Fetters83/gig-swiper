@@ -1,20 +1,39 @@
-import { StyleSheet, Text, View, Image, Pressable} from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View, Image, Pressable, useAnimatedValue} from "react-native";
+import { SavedGigInfo } from './SavedGigInfo'
 
 export const LikedGig = (props) => {
-   const {toggleGigInfoVisible, eventos} = props
-   const { title, location, imageurl } =eventos
-   console.log(title)
+
+    const { eventos } = props;
+    const { title, location, imageurl} = eventos;
+    const [isInfoPressed, setIsInfoPressed] = useState(false);
+    const [currentGig, setCurrentGig] = useState({});
+
+    function handleInfoPress(props) {
+        setIsInfoPressed(!isInfoPressed);
+        setCurrentGig(props.eventos);
+    }
+
     return (
-        <View style={styles.separator}>
-            <Image style={styles.gigImage} source={{ uri: imageurl }}/>
-            <View style={styles.container}>
-                <Text style={styles.header}>{title}</Text>
-                <Text style={styles.text}>{location}</Text>
-            </View>
-            <View>
-            <Pressable style={styles.infoButton} onPress={toggleGigInfoVisible}>
-              <Image style={styles.infoButton} source={require('../assets/info.png')}/>
-            </Pressable>
+        <View style={styles.column}>
+            <View style={styles.separator}>
+                <View style={styles.row}>
+                    <Image style={styles.gigImage} source={{ uri: imageurl }}/>
+                    <View style={styles.container}>
+                        <Text style={styles.header}>{title}</Text>
+                        <Text style={styles.text}>{location}</Text>
+                    </View>
+                    <View>
+                        <Pressable style={styles.infoButton} onPress={()=> handleInfoPress(props)}>
+                            <Image style={styles.infoButton} source={require('../assets/info.png')}/>
+                        </Pressable>
+                    </View>     
+                </View>
+                {isInfoPressed ?
+                <View style={styles.infoArea}>
+                     <SavedGigInfo currentGig={currentGig} />
+                </View> 
+                : null}
             </View>
         </View>
     );
@@ -23,7 +42,6 @@ export const LikedGig = (props) => {
 const styles = StyleSheet.create({
     separator: {
         backgroundColor: '#fff',
-        flexDirection: 'row',
         borderRadius: 5,
         marginVertical: 10,
         marginHorizontal: 20,
@@ -54,5 +72,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         objectFit: 'contain',
         alignItems: 'flex-end'
-    }
+    },
+    column: {
+        flexDirection: 'column'
+    },
+    row: {
+        flexDirection: 'row'
+    },
+    infoArea: {
+        margin: 20,
+    },
 });
