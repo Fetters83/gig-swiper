@@ -21,6 +21,7 @@ import { Search } from "./components/Search";
 import { GigStackContext } from "./contexts/GigStackContext";
 import { LikedGigContext } from "./contexts/LikedGigContext";
 import { DislikedGigContext } from "./contexts/DislikedGigContext";
+import { RadiusContext } from "./contexts/RadiusContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,6 +30,7 @@ export default function App() {
   const [gigStack, setGigStack] = useState("nosearch");
   const [likedGigs, setLikedGigs] = useState([]);
   const [dislikedIds, setDislikedIds] = useState([])
+  const [radius, setRadius] = useState(10)
 
   const { user } = UseAuth();
 
@@ -36,6 +38,7 @@ export default function App() {
     return (
       <LikedGigContext.Provider value={{ likedGigs, setLikedGigs }}>
         <DislikedGigContext.Provider value={{dislikedIds , setDislikedIds}}>
+          <RadiusContext.Provider value={{radius, setRadius}}>
         <GigStackContext.Provider value={{ gigStack, setGigStack }}>
           <NavigationContainer>
             <Tab.Navigator screenOptions={headerStyle}>
@@ -72,6 +75,7 @@ export default function App() {
             </Tab.Navigator>
           </NavigationContainer>
         </GigStackContext.Provider>
+        </RadiusContext.Provider>
         </DislikedGigContext.Provider>
       </LikedGigContext.Provider>
     );
