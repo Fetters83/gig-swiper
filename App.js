@@ -20,11 +20,17 @@ import { headerStyle } from "./styles/Header";
 import { Search } from "./components/Search";
 import { GigStackContext } from "./contexts/GigStackContext";
 import { LikedGigContext } from "./contexts/LikedGigContext";
+
 import writeToDatabase from "./writeToDatabase";
 import getLikedGigs from "./getLikedGigs";
 
 import { collection, getDocs } from "firebase/firestore";
 import db from "./firebaseConfig";
+
+import { DislikedGigContext } from "./contexts/DislikedGigContext";
+import { RadiusContext } from "./contexts/RadiusContext";
+import { LoadingContext } from "./contexts/LoadingContext";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -32,6 +38,11 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [gigStack, setGigStack] = useState("nosearch");
   const [likedGigs, setLikedGigs] = useState([]);
+
+  const [dislikedIds, setDislikedIds] = useState([])
+  const [radius, setRadius] = useState(10)
+  const [loading, setLoading] = useState(false)
+
   const { user } = UseAuth();
 
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -42,6 +53,7 @@ export default function App() {
 
   if (user) {
     return (
+
       <UserContext.Provider value={loggedInUser}>
         <LikedGigContext.Provider value={{ likedGigs, setLikedGigs }}>
           <GigStackContext.Provider value={{ gigStack, setGigStack }}>
@@ -84,15 +96,19 @@ export default function App() {
           </GigStackContext.Provider>
         </LikedGigContext.Provider>
       </UserContext.Provider>
+
     );
   } else {
     return (
+      <LoadingContext.Provider value={{loading, setLoading}}>
+
       <NavigationContainer>
         <Stack.Navigator initialRouteName="signUp">
           <Stack.Screen name="signup" component={SignUp}></Stack.Screen>
           <Stack.Screen name="login" component={LogIn}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
+      </LoadingContext.Provider>
     );
   }
 }
