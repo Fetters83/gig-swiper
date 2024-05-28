@@ -1,21 +1,25 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { auth } from '../config/Config';
 import Error from './Error';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LogIn from './LogIn';
+import { LoadingContext } from '../contexts/LoadingContext';
+import Loader from './Loader';
+
 
 function SignUp({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validCredentials, setValidCredentials] = useState(true)
+  const {loading, setLoading} = useContext(LoadingContext)
 
   function handleSignUp() {
+    setLoading(true)
     if (email && password) {
-      return createUserWithEmailAndPassword(auth, email, password).then((data)=>{console.log("logged in")})
+      return createUserWithEmailAndPassword(auth, email, password).then((data)=>{
+        setLoading(false)
+        console.log("logged in")})
         .catch((err) => {
           console.log(err)
          setValidCredentials(false)
@@ -50,6 +54,7 @@ function SignUp({navigation}) {
         secureTextEntry
         style={styles.input}
       />
+      <Loader/>
       <Button title="Sign Up Mate" onPress={handleSignUp} />
       <View style={styles.logOut}>
 

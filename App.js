@@ -22,6 +22,7 @@ import { GigStackContext } from "./contexts/GigStackContext";
 import { LikedGigContext } from "./contexts/LikedGigContext";
 import { DislikedGigContext } from "./contexts/DislikedGigContext";
 import { RadiusContext } from "./contexts/RadiusContext";
+import { LoadingContext } from "./contexts/LoadingContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,11 +32,13 @@ export default function App() {
   const [likedGigs, setLikedGigs] = useState([]);
   const [dislikedIds, setDislikedIds] = useState([])
   const [radius, setRadius] = useState(10)
+  const [loading, setLoading] = useState(false)
 
   const { user } = UseAuth();
 
   if (user) {
     return (
+      <LoadingContext.Provider value={{loading, setLoading}}>
       <LikedGigContext.Provider value={{ likedGigs, setLikedGigs }}>
         <DislikedGigContext.Provider value={{dislikedIds , setDislikedIds}}>
           <RadiusContext.Provider value={{radius, setRadius}}>
@@ -80,15 +83,19 @@ export default function App() {
         </RadiusContext.Provider>
         </DislikedGigContext.Provider>
       </LikedGigContext.Provider>
+      </LoadingContext.Provider>
     );
   } else {
     return (
+      <LoadingContext.Provider value={{loading, setLoading}}>
+
       <NavigationContainer>
         <Stack.Navigator initialRouteName="signUp">
           <Stack.Screen name="signup" component={SignUp}></Stack.Screen>
           <Stack.Screen name="login" component={LogIn}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
+      </LoadingContext.Provider>
     );
   }
 }

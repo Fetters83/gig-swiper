@@ -37,7 +37,8 @@ export function fetchLatitudeAndLongitude(locationSearch) {
         )
         .then(({ data }) => {
             return { latitude: data[0].lat, longitude: data[0].lon, errorPlaceHolder : data[0].osm_id };
-        });
+        })
+    ;
 }
 
 
