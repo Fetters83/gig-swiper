@@ -18,9 +18,37 @@ export function Search() {
 
   function handleRadius(){
  
-    if(!radiusTab){   console.log("lets choose radius")
-      setRadiusTab(true)} else{   console.log("closing radius tab")
+    if(!radiusTab){console.log("lets choose radius")
+      setRadiusTab(true)} else{  
     setRadiusTab(false)}
+  }
+
+  function handleSetRadius(){
+    if(radius && locationSearch){
+
+      fetchLatitudeAndLongitude(locationSearch).then((data) => {
+        console.log("fetching")
+        return data
+      })
+        .then(({ latitude, longitude }) => {
+  
+          return getAllEvents(latitude, longitude, radius)
+        })
+        .then((eventos) => {
+          if (likedGigs.length > 0) {
+            let filter = eventos.filter(event => !likedGigs.includes(event.id) && !dislikedIds.includes(event.id))
+            setGigStack(filter)
+          } else
+            setGigStack(eventos)
+  
+        })
+        .then(()=>{setRadiusTab(false)})
+  
+      }
+      else{
+      setRadiusTab(false) 
+      console.log("closing radius tab, radius is", radius)}
+
   }
 
   function handleLocationGo() {
@@ -63,7 +91,7 @@ export function Search() {
         <View style={{backgroundColor: "#ffffff", margin:50, padding: 40, borderRadius: 50, flex:0.5 }}>
 <Text style={{fontSize: 20, alignContent:"center",}}> Set your radius</Text>
 <Radius/>
-<Button title="Set Radius" onPress={handleRadius}/>
+<Button title="Set Radius" onPress={handleSetRadius}/>
 
 </View>
   
