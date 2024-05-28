@@ -9,7 +9,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import UseAuth from "./Hooks/UseAuth";
 import SignUp from "./components/SingUp";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 
 import { useState } from "react";
@@ -20,6 +20,11 @@ import { headerStyle } from "./styles/Header";
 import { Search } from "./components/Search";
 import { GigStackContext } from "./contexts/GigStackContext";
 import { LikedGigContext } from "./contexts/LikedGigContext";
+import writeToDatabase from "./writeToDatabase";
+import getLikedGigs from "./getLikedGigs";
+
+import { collection, getDocs } from "firebase/firestore";
+import db from "./firebaseConfig";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,51 +32,58 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [gigStack, setGigStack] = useState("nosearch");
   const [likedGigs, setLikedGigs] = useState([]);
-
   const { user } = UseAuth();
+
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  // useEffect(() => {
+  //   getLikedGigs(user);
+  // }, []);
 
   if (user) {
     return (
-      <LikedGigContext.Provider value={{ likedGigs, setLikedGigs }}>
-        <GigStackContext.Provider value={{ gigStack, setGigStack }}>
-          <NavigationContainer>
-            <Tab.Navigator screenOptions={headerStyle}>
-              <Tab.Screen
-                name="Search"
-                component={SearchScreen}
-                options={{
-                  headerTitle: Search,
-                  tabBarIcon: ({ size, focused, color }) => {
-                    return (
-                      <TouchableOpacity>
-                      <Image
-                        style={styles.tabImage}
-                        source={require("./assets/home.png")}
-                      />
-                      </TouchableOpacity>
-                    );
-                  },
-                }}
-              />
+      <UserContext.Provider value={loggedInUser}>
+        <LikedGigContext.Provider value={{ likedGigs, setLikedGigs }}>
+          <GigStackContext.Provider value={{ gigStack, setGigStack }}>
+            <NavigationContainer>
+              <Tab.Navigator screenOptions={headerStyle}>
+                <Tab.Screen
+                  name="Search"
+                  component={SearchScreen}
+                  options={{
+                    headerTitle: Search,
+                    tabBarIcon: ({ size, focused, color }) => {
+                      return (
+                        <TouchableOpacity>
+                          <Image
+                            style={styles.tabImage}
+                            source={require("./assets/home.png")}
+                          />
+                        </TouchableOpacity>
+                      );
+                    },
+                  }}
+                />
 
-              <Tab.Screen
-                name="Saved"
-                component={SavedScreen}
-                options={{
-                  tabBarIcon: ({ size, focused, color }) => {
-                    return (
-                      <Image
-                        style={styles.tabImage}
-                        source={require("./assets/saved.png")}
-                      />
-                    );
-                  },
-                }}
-              />
-            </Tab.Navigator>
-          </NavigationContainer>
-        </GigStackContext.Provider>
-      </LikedGigContext.Provider>
+                <Tab.Screen
+                  name="Saved"
+                  component={SavedScreen}
+                  options={{
+                    tabBarIcon: ({ size, focused, color }) => {
+                      return (
+                        <Image
+                          style={styles.tabImage}
+                          source={require("./assets/saved.png")}
+                        />
+                      );
+                    },
+                  }}
+                />
+              </Tab.Navigator>
+            </NavigationContainer>
+          </GigStackContext.Provider>
+        </LikedGigContext.Provider>
+      </UserContext.Provider>
     );
   } else {
     return (
