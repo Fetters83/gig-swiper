@@ -128,6 +128,7 @@ console.log("reset pressed")
               <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
             </Pressable>
           </View>
+          {spotifyUrl ? <View><Text>Play audio preview</Text></View>:null} 
           {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
         </View>
         
