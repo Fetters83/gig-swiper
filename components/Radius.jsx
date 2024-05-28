@@ -1,13 +1,11 @@
 import Slider from '@react-native-community/slider';
 import { RadiusContext } from '../contexts/RadiusContext';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 function Radius(){
   
     const { radius , setRadius} = useContext( RadiusContext)
-
-
 
     return( 
         <View style={styles.container}>
