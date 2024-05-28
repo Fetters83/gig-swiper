@@ -5,8 +5,10 @@ import { fetchLatitudeAndLongitude, getAllEvents } from "../api";
 import { LikedGigContext } from "../contexts/LikedGigContext";
 import { DislikedGigContext } from "../contexts/DislikedGigContext";
 import { RadiusContext } from "../contexts/RadiusContext";
+import { LoadingContext } from "../contexts/LoadingContext";
 import Radius from "./Radius";
-import EmergentModal from "./EmergentModal";
+import Loader from "./Loader";
+
 
 
 export function Search() {
@@ -19,9 +21,12 @@ export function Search() {
   const { radius, setRadius } = useContext(RadiusContext)
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [emergentModal, setEmergentModal] = useState(false)
+  const {loading, setLoading} = useContext(LoadingContext)
+ 
+
 
   function handleRadius() {
-
+  
     if (!radiusTab) {
       console.log("lets choose radius")
       setRadiusTab(true)
@@ -49,7 +54,9 @@ export function Search() {
             setGigStack(eventos)
 
         })
-        .then(() => { setRadiusTab(false) })
+        .then(() => { setRadiusTab(false)
+
+         })
 
     }
     else {
@@ -61,25 +68,33 @@ export function Search() {
 
   function handleLocationGo() {
 
+   setLoading(true)
 
     fetchLatitudeAndLongitude(locationSearch).then((data) => {
       if(data.errorPlaceHolder === 62149){ setEmergentModal(true)
+        setLoading(false)
         return null
       }
       return data
     })
       .then(({ latitude, longitude }) => {
+        
+        setLoading(false)
         return getAllEvents(latitude, longitude, radius)
       })
       .then((eventos) => {
         if (likedGigs.length > 0) {
           let filter = eventos.filter(event => !likedGigs.includes(event.id) && !dislikedIds.includes(event.id))
           setGigStack(filter)
+        
+
         } else
           setGigStack(eventos)
-
+          
       })
 .catch((err)=>{
+  setEmergentModal(true)
+  setLoading(false)
   return err
 })
     }
@@ -94,6 +109,7 @@ export function Search() {
 
   return (
     <View style={styles.container}>
+  
       <View style={styles.fullWidth}>
         <TextInput style={styles.textInput} onChangeText={text => {setLocationSearch(text)}} placeholder="Enter city name here"></TextInput>
       </View>
@@ -116,9 +132,13 @@ export function Search() {
             <Image style={styles.sadMap} source={require('../assets/sadMap.jpg')}/>
 
             <Button title="OK!" onPress={handleOK} />
+
           </View>
+         
         </View>
+      
         </Modal>
+      
 
     </View>
 

@@ -5,6 +5,7 @@ import { Image, StyleSheet, Text, View, Pressable, FlatList, TouchableOpacity, B
 import { GigStackContext } from "../contexts/GigStackContext";
 import { LikedGigContext } from "../contexts/LikedGigContext";
 import { DislikedGigContext } from "../contexts/DislikedGigContext";
+import Loader from "./Loader";
 
 export function GigCard(props) {
 
@@ -70,13 +71,10 @@ export function GigCard(props) {
       setDislikedIds([gigStack[stackNumber].id])
     }
     else { dislikedIds.push(gigStack[stackNumber].id) }
-    console.log("put on redlist", dislikedIds)
-
   }
 
 
    function handleReset(){
-console.log("reset pressed")
     setDislikedIds([])
 
    }
@@ -93,12 +91,16 @@ console.log("reset pressed")
     <>
       {gigStack === "nosearch" || stackNumber === gigStack.length - 1 ?
 
+
         <>
+          <Loader />
           <Text style={styles.typeACity}>Type a place name to search</Text>
+        
         </>
 
         :
         (<View style={[styles.container, styles.shadow]}>
+
           <View style={[styles.row, styles.height50]}>
             <Image style={styles.cardArrowL} source={require('../assets/left.png')} />
 
