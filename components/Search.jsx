@@ -1,37 +1,44 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Pressable, StyleSheet, Text, TextInput, View, Modal } from "react-native";
+import { Button, Pressable, StyleSheet, Text, TextInput, View, Modal, Image, } from "react-native";
 import { GigStackContext } from "../contexts/GigStackContext";
 import { fetchLatitudeAndLongitude, getAllEvents } from "../api";
 import { LikedGigContext } from "../contexts/LikedGigContext";
 import { DislikedGigContext } from "../contexts/DislikedGigContext";
 import { RadiusContext } from "../contexts/RadiusContext";
 import Radius from "./Radius";
+import EmergentModal from "./EmergentModal";
+
 
 export function Search() {
 
   const [locationSearch, setLocationSearch] = useState('')
   const { setGigStack, gigStack } = useContext(GigStackContext)
   const { setLikedGigs, likedGigs } = useContext(LikedGigContext)
-  const { dislikedIds, setDislikedIds} = useContext( DislikedGigContext)
-  const [ radiusTab, setRadiusTab] =useState(false)
-  const {radius, setRadius}= useContext(RadiusContext)
+  const { dislikedIds, setDislikedIds } = useContext(DislikedGigContext)
+  const [radiusTab, setRadiusTab] = useState(false)
+  const { radius, setRadius } = useContext(RadiusContext)
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [emergentModal, setEmergentModal] = useState(false)
 
-  function handleRadius(){
- 
-    if(!radiusTab){console.log("lets choose radius")
-      setRadiusTab(true)} else{  
-    setRadiusTab(false)}
+  function handleRadius() {
+
+    if (!radiusTab) {
+      console.log("lets choose radius")
+      setRadiusTab(true)
+    } else {
+      setRadiusTab(false)
+    }
   }
 
-  function handleSetRadius(){
-    if(radius && locationSearch){
+  function handleSetRadius() {
+    if (radius && locationSearch) {
 
       fetchLatitudeAndLongitude(locationSearch).then((data) => {
         console.log("fetching")
         return data
       })
         .then(({ latitude, longitude }) => {
-  
+
           return getAllEvents(latitude, longitude, radius)
         })
         .then((eventos) => {
@@ -40,14 +47,15 @@ export function Search() {
             setGigStack(filter)
           } else
             setGigStack(eventos)
-  
+
         })
-        .then(()=>{setRadiusTab(false)})
-  
-      }
-      else{
-      setRadiusTab(false) 
-      console.log("closing radius tab, radius is", radius)}
+        .then(() => { setRadiusTab(false) })
+
+    }
+    else {
+      setRadiusTab(false)
+      console.log("closing radius tab, radius is", radius)
+    }
 
   }
 
@@ -55,10 +63,12 @@ export function Search() {
 
 
     fetchLatitudeAndLongitude(locationSearch).then((data) => {
+      if(data.errorPlaceHolder === 62149){ setEmergentModal(true)
+        return null
+      }
       return data
     })
       .then(({ latitude, longitude }) => {
-
         return getAllEvents(latitude, longitude, radius)
       })
       .then((eventos) => {
@@ -69,38 +79,51 @@ export function Search() {
           setGigStack(eventos)
 
       })
+.catch((err)=>{
+  return err
+})
+    }
 
-  }
+    function handleOK(){
+    
+      if(!emergentModal){
+        setEmergentModal(true)}
+      else{setEmergentModal(false)}
+    }
+    
 
   return (
     <View style={styles.container}>
       <View style={styles.fullWidth}>
-        <TextInput style={styles.textInput} onChangeText={text => setLocationSearch(text)} placeholder="Enter city name here"></TextInput>
-
+        <TextInput style={styles.textInput} onChangeText={text => {setLocationSearch(text)}} placeholder="Enter city name here"></TextInput>
       </View>
-      
-
       <Button onPress={handleLocationGo} title="Go" />
-
-
-
-      <Button title="R" onPress={handleRadius}/>
-
+      <Button title="R" onPress={handleRadius} />
       <Modal transparent={true} visible={radiusTab}>
-      <View style={{backgroundColor: "#000000aa",flex:1}}>
-        <View style={{backgroundColor: "#ffffff", margin:50, padding: 40, borderRadius: 50, flex:0.5 }}>
-<Text style={{fontSize: 20, alignContent:"center",}}> Set your radius</Text>
-<Radius/>
-<Button title="Set Radius" onPress={handleSetRadius}/>
+        <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+          <View style={{ backgroundColor: "#ffffff", margin: 50, padding: 40, borderRadius: 50, flex: 0.5 }}>
+            <Text style={{ fontSize: 20, alignContent: "center", }}> Set your radius</Text>
+            <Radius />
+            <Button title="Set Radius" onPress={handleSetRadius} />
+          </View>
+        </View>
+      </Modal>
 
-</View>
-  
-    </View>
-    </Modal>
-    </View>
-   
+      <Modal transparent={true} visible={emergentModal}>
+        <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+          <View style={{ backgroundColor: "#ffffff", margin: 50, padding: 40, borderRadius: 50, flex: 0.5 }}>
+            <Text style={{ fontSize: 20, alignContent: "center", }}> Please enter a valid input</Text>
+            <Image style={styles.sadMap} source={require('../assets/sadMap.jpg')}/>
 
-        
+            <Button title="OK!" onPress={handleOK} />
+          </View>
+        </View>
+        </Modal>
+
+    </View>
+
+
+
   )
 
 }
@@ -114,5 +137,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 5,
   },
+  sadMap: {
+    alignItems: "center",
+    width: 200,
+    height: 200,
+  }
 
 });

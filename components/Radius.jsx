@@ -9,10 +9,10 @@ function Radius(){
 
     return( 
         <View style={styles.container}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold'}}>{`${radius} miles`}</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold'}}>{radius> 1?`${radius} miles`: `${radius} mile`}</Text>
     <Slider
         style={{width: 250, height: 40}}
-        minimumValue={0.1}
+        minimumValue={1}
         maximumValue={25}
         minimumTrackTintColor="#f4511e"
         maximumTrackTintColor="#000"
