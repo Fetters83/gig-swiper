@@ -5,6 +5,9 @@ import { Image, StyleSheet, Text, View, Pressable, FlatList, TouchableOpacity, B
 import { GigStackContext } from "../contexts/GigStackContext";
 import { LikedGigContext } from "../contexts/LikedGigContext";
 import { DislikedGigContext } from "../contexts/DislikedGigContext";
+import { WebView } from 'react-native-webview'; 
+import SpotifyWebView from "./TrackPreview";
+
 
 export function GigCard(props) {
 
@@ -110,6 +113,7 @@ console.log("reset pressed")
           </View>
 
           <View style={[styles.row, styles.height30, styles.column]}>
+            <SpotifyWebView></SpotifyWebView>
             <Text style={styles.header}>{gigStack[stackNumber].eventname}</Text>
             <Text style={styles.text}>{gigStack[stackNumber].venue.name}</Text>
             <Text style={styles.text}>{gigStack[stackNumber].date}</Text>
@@ -128,8 +132,14 @@ console.log("reset pressed")
               <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
             </Pressable>
           </View>
+          
           {spotifyUrl ? <View><Text>Play audio preview</Text></View>:null} 
           {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
+          {/* <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3w0w2T288dec0mgeZZqoNN?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> */}
+          {/* <WebView 
+            originWhitelist={['*']} 
+            source={{ html: <iframe src="https://open.spotify.com/embed/track/3w0w2T288dec0mgeZZqoNN?utm_source=generator&theme=0"></iframe> }} 
+          />  */}
         </View>
         
       
@@ -198,6 +208,7 @@ const styles = StyleSheet.create({
   },
   cardButton: {
     width: "33%",
+    height: 100,
     objectFit: "contain",
     alignItems: 'center',
   },
