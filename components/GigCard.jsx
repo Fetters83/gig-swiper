@@ -10,7 +10,8 @@ export function GigCard(props) {
 
   const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber } = props
   const { gigStack } = useContext(GigStackContext)
-  const { setLikedGigs, likedGigs } = useContext(LikedGigContext)
+  const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
+  const [spotifyUrl, setSpotifyUrl] = useState(false)
   const [likedIds, setLikedIds] = useState([])
   const {dislikedIds, setDislikedIds} = useContext(DislikedGigContext)
 
@@ -40,7 +41,26 @@ export function GigCard(props) {
 
     )
   }
-  useEffect(() => { setCurrentGig(gigStack[stackNumber]) }, [stackNumber, gigStack])
+  useEffect(() => { setCurrentGig(gigStack[stackNumber]) 
+    setSpotifyUrl(false)
+    if(gigStack[stackNumber].artists) {
+      if(gigStack[stackNumber].artists[0]){
+  
+        if(gigStack[stackNumber].artists[0].spotifymp3url) {
+          console.log(gigStack[stackNumber].artists[0].spotifymp3url)
+  
+          
+        setSpotifyUrl(true) 
+     
+        }else {
+          setSpotifyUrl(false)
+        }
+      }
+  
+      
+    }  
+
+  }, [stackNumber, gigStack])
 
   function handleDislikeById() {
     
@@ -108,15 +128,12 @@ console.log("reset pressed")
               <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
             </Pressable>
           </View>
-
-
           {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
         </View>
         
       
       
       )
-
       }
    
 

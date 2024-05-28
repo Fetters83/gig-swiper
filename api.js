@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LogBox } from "react-native";
 const Buffer = require('buffer/').Buffer
 const client_id = process.env.EXPO_PUBLIC_CLIENT_ID
 const client_secret = process.env.EXPO_PUBLIC_CLIENT_SECRET
@@ -14,7 +15,9 @@ export function getAllEvents(latitude, longitude, radius) {
                     latitude: latitude,
                     longitude: longitude,
                     radius: radius,
-                    limit: 50,
+                    limit: 100,
+                    description:true
+
                 },
             }
         )
@@ -55,10 +58,84 @@ const authOptions = {
 
 
 
+// Spotify
+function getSpotifyToken() {
+    return axios.post(url, null, authOptions)
+    .then((response) => {
+        return response.data.access_token;
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
 
-axios.post(url, null,authOptions).then((response)=>{
-      return response.data.access_token
-  
-  }).catch((error)=>{
-    console.log(error)
-  })
+function fetchArtistId(token, requiredArtistsName) {
+    return axios.get(`https://api.spotify.com/v1/search`, {
+        params: {
+            q: requiredArtistsName,
+            type: "artist",
+            market: "GB",
+            limit: 5,
+            offset: 0
+        },
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+        }
+    )
+    .then((response) => {
+        let artists = response.data.artists.items
+        return getRequiredArtistId(requiredArtistsName, artists)
+    })
+    .catch((error) => {
+        return new Promise.reject(error)
+    })
+}
+
+
+function getRequiredArtistId(requiredArtistsName, artists) {
+    const matchingArtist = artists.filter((artist) => {
+        return artist.name.toLowerCase() === requiredArtistsName.toLowerCase()
+    });
+    if (matchingArtist.length > 0) {
+        return matchingArtist[0].id
+    } else {
+        return new Promise.reject("no matching artist found")
+    }
+}
+
+function fetchArtistTopTracks(token, artistId) {
+    return axios.get(`https://api.spotify.com/v1/artists/${artistId}/top-tracks`, {
+        params: {
+            market: "GB",
+        },
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+        }
+    )
+    .then((response) => {
+        return response.data
+    })
+    .catch((error) => {
+        console.log('Error caught fetching top tracks:', error);
+    })
+}
+
+let token = ''
+
+getSpotifyToken()
+.then((response) => {
+    token = response
+    return fetchArtistId(token, 'Taylor Swift')
+})
+.then((artistId) => {
+    fetchArtistTopTracks(token, artistId)
+})
+.catch((err) => {
+    console.log('line 150 err caught:', err);
+})
+
+// [0].external_urls.spotify);
+// Change skiddle to only search for music
+// Check what potify returns if no artist

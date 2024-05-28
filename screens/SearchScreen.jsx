@@ -14,6 +14,18 @@ export function SearchScreen() {
     const [currentGig, setCurrentGig] = useState({})
     const [stackNumber, setStackNumber] = useState(0)
 
+
+    /* const eventArtistInfo = {}
+    if(currentGig.artists[0]) {
+
+        eventArtistInfo.name = currentGig.artists[0].name
+        eventArtistInfo.spotifyUrl = currentGig.artists[0].spotifymp3url
+      
+        }
+       
+    
+    
+    console.log(eventArtistInfo) */
     
 useEffect(()=>{
     getAllEvents().then((data)=>{
