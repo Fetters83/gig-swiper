@@ -47,25 +47,22 @@ export function GigCard(props) {
     )
   }
   useEffect(() => { setCurrentGig(gigStack[stackNumber])
-    getArtistTopTrack() // this runs on initial load - should not
     setSpotifyUrl(false)
     if(gigStack[stackNumber].artists) {
       if(gigStack[stackNumber].artists[0]){
-  
-        if(gigStack[stackNumber].artists[0].spotifymp3url) {
-          console.log(gigStack[stackNumber].artists[0].spotifymp3url)
-  
-          
-        setSpotifyUrl(true) 
-     
-        }else {
+        getArtistTopTrack(gigStack[stackNumber].artists[0].name) // this runs on initial load - should not
+        .then((topTrack) => {
+          console.log('line 55:', topTrack);
+          setSpotifyUrl(topTrack) 
+        })
+        // if(gigStack[stackNumber].artists[0].spotifymp3url) {
+        //   console.log(gigStack[stackNumber].artists[0].spotifymp3url)          
+        //   setSpotifyUrl(true) 
+        } else {
           setSpotifyUrl(false)
         }
-      }
-  
-      
-    }  
-
+      } 
+    // }  
   }, [stackNumber, gigStack])
 
   function handleDislikeById() {

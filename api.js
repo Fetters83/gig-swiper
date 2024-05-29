@@ -129,8 +129,8 @@ getSpotifyToken()
 })
 
 
-export function getArtistTopTrack() {
-    fetchArtistId(token, 'Taylor Swift')
+export function getArtistTopTrack(artistName) {
+    return fetchArtistId(token, artistName)
     .then((artistId) => {
         return fetchArtistTopTracks(token, artistId)
     })
