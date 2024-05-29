@@ -16,7 +16,9 @@ import db from "./firebaseConfig";
 // }
 
 export default async function writeToDatabase(likedGigs, user) {
-  await setDoc(doc(db, "users", user.email), {
-    likedgigs: likedGigs,
-  });
+  if (user) {
+    await setDoc(doc(db, "users", user.email), {
+      likedgigs: likedGigs,
+    });
+  }
 }
