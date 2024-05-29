@@ -9,12 +9,12 @@ export default function SpotifyPreview ({ spotifyTrack }) {
 
     return (
         <View style={{}}>
-            <View style={{width: "100%", height: "100%", top: 65, marginLeft: "31%"}}>
+            <View style={{width: "100%", height: 352, marginLeft: "31%", backgroundColor: 'transparent'}}>
                 <WebView
                     source={{ html: myHtml}}
                     showsVerticalScrollIndicator = {false}
                     showsHorizontalScrollIndicator = {false}
-                    // style = {{height: "100%", top: 65}}
+                    style = {{height: "100%", backgroundColor: 'transparent'}}
                 />
             </View>
         </View>
