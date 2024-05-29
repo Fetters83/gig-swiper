@@ -71,6 +71,7 @@ export function Search() {
    setLoading(true)
 
     fetchLatitudeAndLongitude(locationSearch).then((data) => {
+      console.log(data.errorPlaceHolder)
       if(data.errorPlaceHolder === 62149){ setEmergentModal(true)
         setLoading(false)
         return null

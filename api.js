@@ -26,7 +26,7 @@ export function fetchLatitudeAndLongitude(locationSearch) {
         `https://nominatim.openstreetmap.org/search?q=gb%20${locationSearch}&format=json&addressdetails=1&limit=1&polygon_svg=1`
     )
     .then(({ data }) => {
-        return { latitude: data[0].lat, longitude: data[0].lon };
+        return { latitude: data[0].lat, longitude: data[0].lon , errorPlaceHolder : data[0].osm_id };
     });
 }
 
