@@ -6,7 +6,6 @@ const client_secret = process.env.EXPO_PUBLIC_CLIENT_SECRET
 
 
 export function getAllEvents(latitude, longitude, radius) {
-    console.log(latitude, longitude, radius);
     return axios
         .get(
             `https://www.skiddle.com/api/v1/events/search/?api_key=53e664e9d779d1a9ba1d2a248bb01777/&`,
@@ -65,7 +64,7 @@ function getSpotifyToken() {
         return response.data.access_token;
     })
     .catch((error) => {
-        console.log(error);
+        console.log('in getSpotifyToken error caught:', error);
     });
 }
 
@@ -118,7 +117,7 @@ function fetchArtistTopTracks(token, artistId) {
         return {topTracks: response.data.tracks}
     })
     .catch((error) => {
-        console.log('Error caught fetching top tracks:', error);
+        console.log('fetchArtistTopTracks error caught:', error);
     })
 }
 
@@ -135,33 +134,10 @@ export function getArtistTopTrack(artistName) {
         return fetchArtistTopTracks(token, artistId)
     })
     .then(({ topTracks }) => {
-        let topTrack = topTracks[0].external_urls.spotify
-        console.log('top track:', topTrack);
+        let topTrack = topTracks[0]
         return topTrack
     })
-    .catch((err) => {
-        console.log('line 150 err caught:', err);
+    .catch((error) => {
+        console.log('getArtistTopTrack error caught:', error);
     })
 }
-
-
-// .then((artistId) => {
-//     return fetchArtistTopTracks(token, artistId)
-// })
-// .then(({ topTracks }) => {
-//     let topTrack = topTracks[0].external_urls.spotify
-//     console.log('top track:', topTrack);
-//     return topTrack
-// })
-// .catch((err) => {
-//     console.log('line 150 err caught:', err);
-// })
-
-//make into tfunction
-// export
-// call function on new card
-// if there is a link, show spotify preview
-
-// [0].external_urls.spotify);
-// Change skiddle to only search for music
-// Check what potify returns if no artist

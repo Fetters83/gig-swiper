@@ -16,7 +16,7 @@ export function GigCard(props) {
   const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber } = props
   const { gigStack } = useContext(GigStackContext)
   const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
-  const [spotifyUrl, setSpotifyUrl] = useState(false)
+  const [spotifyTrack, setSpotifyTrack] = useState(false)
   const [likedIds, setLikedIds] = useState([])
   const {dislikedIds, setDislikedIds} = useContext(DislikedGigContext)
 
@@ -47,19 +47,18 @@ export function GigCard(props) {
     )
   }
   useEffect(() => { setCurrentGig(gigStack[stackNumber])
-    setSpotifyUrl(false)
+    setSpotifyTrack(false)
     if(gigStack[stackNumber].artists) {
       if(gigStack[stackNumber].artists[0]){
         getArtistTopTrack(gigStack[stackNumber].artists[0].name) // this runs on initial load - should not
         .then((topTrack) => {
-          console.log('line 55:', topTrack);
-          setSpotifyUrl(topTrack) 
+          setSpotifyTrack(topTrack) 
         })
         // if(gigStack[stackNumber].artists[0].spotifymp3url) {
         //   console.log(gigStack[stackNumber].artists[0].spotifymp3url)          
-        //   setSpotifyUrl(true) 
+        //   setSpotifyTrack(true) 
         } else {
-          setSpotifyUrl(false)
+          setSpotifyTrack(false)
         }
       } 
     // }  
@@ -106,7 +105,9 @@ console.log("reset pressed")
             <Image style={styles.cardArrowL} source={require('../assets/left.png')} />
 
             <View style={[styles.imageView, styles.shadowHeavy]}>
-              <Image style={styles.cardImage} source={{ uri: imageurl }} />
+              {/* <Image style={styles.cardImage} source={{ uri: imageurl }} /> */}
+            {spotifyTrack ? <SpotifyWebView spotifyTrack={spotifyTrack}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
+
             </View>
             
             <Image style={styles.cardArrowR} source={require('../assets/right.png')} />
@@ -132,7 +133,7 @@ console.log("reset pressed")
             </Pressable>
           </View>
           
-          {spotifyUrl ? <View><Text>Play audio preview</Text></View>:null} 
+          {spotifyTrack ? <View><Text>Play audio preview</Text></View>:null} 
           {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
         </View>
         
