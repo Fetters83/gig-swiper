@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview';
 
 export default function SpotifyWebView ({ spotifyTrack }) {
 
-    const myHtml = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/${spotifyTrack.id}" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
+    const myHtml = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/${spotifyTrack.id}" width="90%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
     const webViewRef = useRef(null);
 
     // return (
@@ -22,11 +22,14 @@ export default function SpotifyWebView ({ spotifyTrack }) {
     //     </View>
     // );
     return (
-        <View style={{height: 200, position: 'relative', borderRadius: 20, backgroundColor: 'transparent'}}>
-            <View style={{ width: 520, height: 230, backgroundColor: 'transparent', borderRadius: 20, overflow: 'hidden'}}>
+        <View style={{position: 'relative', overflow: 'hidden'}}>
+            <View style={{height: "100%", overflow: 'hidden', top: 65}}>
                 <WebView
                     source={{ html: myHtml}}
-                    style={{left: -300}}
+                    style={{}}
+                    showsVerticalScrollIndicator = {false}
+                    showsHorizontalScrollIndicator = {false}
+
                 />
             </View>
         </View>

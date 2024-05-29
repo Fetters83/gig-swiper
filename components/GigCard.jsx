@@ -16,7 +16,7 @@ export function GigCard(props) {
   const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber } = props
   const { gigStack } = useContext(GigStackContext)
   const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
-  const [spotifyTrack, setSpotifyTrack] = useState(false)
+  const [spotifyTrack, setSpotifyTrack] = useState(true)
   const [likedIds, setLikedIds] = useState([])
   const {dislikedIds, setDislikedIds} = useContext(DislikedGigContext)
 
@@ -47,7 +47,7 @@ export function GigCard(props) {
     )
   }
   useEffect(() => { setCurrentGig(gigStack[stackNumber])
-    setSpotifyTrack(false)
+    setSpotifyTrack(true)
     if(gigStack[stackNumber].artists) {
       if(gigStack[stackNumber].artists[0]){
         getArtistTopTrack(gigStack[stackNumber].artists[0].name) // this runs on initial load - should not
@@ -106,7 +106,7 @@ console.log("reset pressed")
 
             <View style={[styles.imageView, styles.shadowHeavy]}>
               {/* <Image style={styles.cardImage} source={{ uri: imageurl }} /> */}
-            {spotifyTrack ? <SpotifyWebView spotifyTrack={spotifyTrack}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
+            {spotifyTrack ? <SpotifyWebView spotifyTrack={spotifyTrack} style={styles.cardImage}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
 
             </View>
             
@@ -131,9 +131,7 @@ console.log("reset pressed")
             <Pressable onPress={handleLike} style={styles.cardButton}  >
               <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
             </Pressable>
-          </View>
-          
-          {spotifyTrack ? <View><Text>Play audio preview</Text></View>:null} 
+          </View>          
           {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
         </View>
         
@@ -199,7 +197,7 @@ const styles = StyleSheet.create({
   cardImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 10,
+    borderRadius: 10
   },
   cardButton: {
     width: "33%",
