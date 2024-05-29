@@ -136,7 +136,10 @@ export function GigCard(props) {
             <Image style={styles.cardArrowL} source={require('../assets/left.png')} />
 
             <View style={[styles.imageView, styles.shadowHeavy]}>
-              <Image style={styles.cardImage} source={{ uri: imageurl }} />
+
+
+              {spotifyTrack ? <SpotifyPreview spotifyTrack={spotifyTrack} style={{borderRadius: 1}}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
+
             </View>
             
             <Image style={styles.cardArrowR} source={require('../assets/right.png')} />
