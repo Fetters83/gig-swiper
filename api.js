@@ -115,7 +115,7 @@ function fetchArtistTopTracks(token, artistId) {
         }
     )
     .then((response) => {
-        return response.data
+        return {topTracks: response.data.tracks}
     })
     .catch((error) => {
         console.log('Error caught fetching top tracks:', error);
@@ -123,18 +123,44 @@ function fetchArtistTopTracks(token, artistId) {
 }
 
 let token = ''
-
 getSpotifyToken()
 .then((response) => {
     token = response
-    return fetchArtistId(token, 'Taylor Swift')
 })
-.then((artistId) => {
-    fetchArtistTopTracks(token, artistId)
-})
-.catch((err) => {
-    console.log('line 150 err caught:', err);
-})
+
+
+export function getArtistTopTrack() {
+    fetchArtistId(token, 'Taylor Swift')
+    .then((artistId) => {
+        return fetchArtistTopTracks(token, artistId)
+    })
+    .then(({ topTracks }) => {
+        let topTrack = topTracks[0].external_urls.spotify
+        console.log('top track:', topTrack);
+        return topTrack
+    })
+    .catch((err) => {
+        console.log('line 150 err caught:', err);
+    })
+}
+
+
+// .then((artistId) => {
+//     return fetchArtistTopTracks(token, artistId)
+// })
+// .then(({ topTracks }) => {
+//     let topTrack = topTracks[0].external_urls.spotify
+//     console.log('top track:', topTrack);
+//     return topTrack
+// })
+// .catch((err) => {
+//     console.log('line 150 err caught:', err);
+// })
+
+//make into tfunction
+// export
+// call function on new card
+// if there is a link, show spotify preview
 
 // [0].external_urls.spotify);
 // Change skiddle to only search for music

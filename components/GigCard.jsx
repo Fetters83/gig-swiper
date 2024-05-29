@@ -7,6 +7,8 @@ import { LikedGigContext } from "../contexts/LikedGigContext";
 import { DislikedGigContext } from "../contexts/DislikedGigContext";
 import { WebView } from 'react-native-webview'; 
 import SpotifyWebView from "./TrackPreview";
+import { getArtistTopTrack } from "../api";
+
 
 
 export function GigCard(props) {
@@ -44,7 +46,8 @@ export function GigCard(props) {
 
     )
   }
-  useEffect(() => { setCurrentGig(gigStack[stackNumber]) 
+  useEffect(() => { setCurrentGig(gigStack[stackNumber])
+    getArtistTopTrack() // this runs on initial load - should not
     setSpotifyUrl(false)
     if(gigStack[stackNumber].artists) {
       if(gigStack[stackNumber].artists[0]){
