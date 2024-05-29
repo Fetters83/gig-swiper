@@ -1,5 +1,8 @@
 import axios from "axios";
 import { LogBox } from "react-native";
+
+
+
 const Buffer = require('buffer/').Buffer
 const client_id = process.env.EXPO_PUBLIC_CLIENT_ID
 const client_secret = process.env.EXPO_PUBLIC_CLIENT_SECRET
@@ -15,6 +18,8 @@ getSpotifyToken()
 /* Functions */
     // These could be made extracted, but getArtistTopTrack is invoked in GigCard.jsx ...
     // ... and requires the spotifyToken script
+
+// Open Street Maps
 export function fetchLatitudeAndLongitude(locationSearch) {
     return axios
     .get(
