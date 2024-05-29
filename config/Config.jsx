@@ -3,12 +3,12 @@ import { initializeAuth, getReactNativePersistence, getAuth } from "firebase/aut
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDtBzAWY2l4m8zhDmtiYHDuWPPLmY2k4l4",
-  authDomain: "gig-swiper.firebaseapp.com",
-  projectId: "gig-swiper",
-  storageBucket: "gig-swiper.appspot.com",
-  messagingSenderId: "380131406405",
-  appId: "1:380131406405:web:52b9b81013bddd9b1be92c"
+  apiKey: process.env.EXPO_PUBLIC_FB_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_APP_ID
 };
 
 
