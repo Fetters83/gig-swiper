@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   tabImage: {
     flex: 1,
-    width: 40,
     objectFit: "contain",
+    width: 40,
   },
 });
