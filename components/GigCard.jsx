@@ -108,7 +108,7 @@ export function GigCard(props) {
           <View style={[styles.row, styles.height50]}>
             <View style={[styles.imageView, styles.shadowHeavy]}>
               {/* <Image style={styles.cardImage} source={{ uri: imageurl }} /> */}
-              {spotifyTrack ? <SpotifyPreview spotifyTrack={spotifyTrack} style={styles.cardImage}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
+              {spotifyTrack ? <SpotifyPreview spotifyTrack={spotifyTrack} style={{borderRadius: 1}}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
             </View>
           </View>
 

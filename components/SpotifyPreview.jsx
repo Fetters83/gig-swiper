@@ -8,13 +8,13 @@ export default function SpotifyPreview ({ spotifyTrack }) {
     const webViewRef = useRef(null);
 
     return (
-        <View style={{position: 'relative'}}>
-            <View style={{height: "100%", top: 65}}>
+        <View style={{}}>
+            <View style={{width: "100%", height: "100%", top: 65, marginLeft: "31%"}}>
                 <WebView
                     source={{ html: myHtml}}
-                    style={{}}
                     showsVerticalScrollIndicator = {false}
                     showsHorizontalScrollIndicator = {false}
+                    // style = {{height: "100%", top: 65}}
                 />
             </View>
         </View>
