@@ -35,7 +35,7 @@ export function fetchLatitudeAndLongitude(locationSearch) {
 export function getAllEvents(latitude, longitude, radius) {
     return axios
         .get(
-            `https://www.skiddle.com/api/v1/events/search/?api_key=53e664e9d779d1a9ba1d2a248bb01777/&`,
+            `https://www.skiddle.com/api/v1/events/search/?api_key=${process.env.EXPO_PUBLIC_SKIDDLE_KEY}/&`,
             { params: {
                     latitude: latitude,
                     longitude: longitude,
