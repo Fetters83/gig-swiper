@@ -117,7 +117,6 @@ console.log("reset pressed")
             <Text style={styles.text}>{gigStack[stackNumber].venue.name}</Text>
             <Text style={styles.text}>{gigStack[stackNumber].date}</Text>
             {gigStack[stackNumber].entryprice ? <Text style={styles.text}>£{gigStack[stackNumber].entryprice}</Text> : null}
-            <SpotifyWebView></SpotifyWebView>
           </View>
 
 
@@ -203,7 +202,6 @@ const styles = StyleSheet.create({
   },
   cardButton: {
     width: "33%",
-    height: 100,
     objectFit: "contain",
     alignItems: 'center',
   },

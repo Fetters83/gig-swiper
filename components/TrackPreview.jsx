@@ -8,14 +8,16 @@ export default function SpotifyWebView () {
     const webViewRef = useRef(null);
 
     return (
-        <View style={{height: 100}}>
-            <WebView
-                ref={webViewRef}
-                source={{ uri: 'https://open.spotify.com/embed/track/3w0w2T288dec0mgeZZqoNN' }}
-                javaScriptEnabled={true}
-                domStorageEnabled={true}
-                style={{ flex: 1, width: 245, maxHeight: 100, zIndex: 99}}
-            />
+        <View style={{height: 300, position: 'relative', overflow: 'hidden'}}>
+            <View style={{}}>
+                <WebView
+                    ref={webViewRef}
+                    source={{ uri: 'https://open.spotify.com/embed/track/3w0w2T288dec0mgeZZqoNN' }}
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
+                    style={{ width: 245, height: 500, zIndex: 99}}
+                />
+            </View>
             <View id='embed-iframe'></View>
         </View>
     );
