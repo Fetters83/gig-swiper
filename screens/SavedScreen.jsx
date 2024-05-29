@@ -18,8 +18,10 @@ export function SavedScreen({toggleGigInfoVisible}) {
         {likedGigs.length === 0 ?
         
         <>
+        <View style={styles.container}>
         <Image style={styles.savedScreenLogo} source={require('../assets/rock-on.png')} />
         <Text style={styles.addSaved}>You have no saved gigs yet...</Text>
+        </View>
         </>
         :
         <ScrollView>
@@ -34,14 +36,20 @@ export function SavedScreen({toggleGigInfoVisible}) {
 }
 
 const styles = StyleSheet.create({
-        savedScreenLogo: {
-            justifyContent: 'center',
-            width: '40%',
-            height: '40%',
-        },
-        addSaved: {
-            margin: 40,
-            fontSize: 30,
-            textAlign: 'center',
-    }
-})
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    savedScreenLogo: {
+        width: '40%',
+        height: '40%',
+        resizeMode: 'contain',
+        marginVertical: '-15%'
+    },
+    addSaved: {
+        margin: 40,
+        fontSize: 30,
+        textAlign: 'center',
+    },
+});
