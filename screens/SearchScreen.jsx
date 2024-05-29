@@ -59,10 +59,8 @@ export function SearchScreen() {
           })
 
         useEffect(()=>{
-            // setLikedGigs([])
             getLikedGigs(user)
             .then((data)=>{
-                console.log(data, "THIS IS DATA IN PROMISE")
                 setLikedGigs(data)
             })
         },[user])
