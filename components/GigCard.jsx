@@ -5,14 +5,18 @@ import { Image, StyleSheet, Text, View, Pressable, TouchableWithoutFeedback, Ani
 import { GigStackContext } from "../contexts/GigStackContext";
 import { LikedGigContext } from "../contexts/LikedGigContext";
 import { DislikedGigContext } from "../contexts/DislikedGigContext";
+import { WebView } from 'react-native-webview'; 
+import { getArtistTopTrack } from "../api";
+import SpotifyPreview from "./SpotifyPreview";
 import Loader from "./Loader";
+
 
 export function GigCard(props) {
 
   const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber, animateButton, animateButton2, scaleValue, rotateInterpolate, rotateValue } = props
   const { gigStack } = useContext(GigStackContext)
-  const { setLikedGigs, likedGigs } = useContext(LikedGigContext)
-  const [spotifyUrl, setSpotifyUrl] = useState(false)
+  const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
+  const [spotifyTrack, setSpotifyTrack] = useState(true)
   const [likedIds, setLikedIds] = useState([])
   const { dislikedIds, setDislikedIds } = useContext(DislikedGigContext)
 
@@ -44,26 +48,23 @@ export function GigCard(props) {
 
     )
   }
-  useEffect(() => {
+  useEffect(() => { 
     setCurrentGig(gigStack[stackNumber])
-    setSpotifyUrl(false)
-    if (gigStack[stackNumber].artists) {
-      if (gigStack[stackNumber].artists[0]) {
-
-        if (gigStack[stackNumber].artists[0].spotifymp3url) {
-          console.log(gigStack[stackNumber].artists[0].spotifymp3url)
-
-
-          setSpotifyUrl(true)
-
+    setSpotifyTrack(true)
+    if(gigStack[stackNumber].artists) {
+      if(gigStack[stackNumber].artists[0]){
+        getArtistTopTrack(gigStack[stackNumber].artists[0].name) // this runs on initial load - should not
+        .then((topTrack) => {
+          setSpotifyTrack(topTrack) 
+        })
+        // if(gigStack[stackNumber].artists[0].spotifymp3url) {
+        //   console.log(gigStack[stackNumber].artists[0].spotifymp3url)          
+        //   setSpotifyTrack(true) 
         } else {
-          setSpotifyUrl(false)
+          setSpotifyTrack(false)
         }
-      }
-
-
-    }
-
+      } 
+    // }  
   }, [stackNumber, gigStack])
 
   function handleDislikeById() {
@@ -108,7 +109,9 @@ export function GigCard(props) {
          
 
             <View style={[styles.imageView, styles.shadowHeavy]}>
-              <Image style={styles.cardImage} source={{ uri: imageurl }} />
+              {/* <Image style={styles.cardImage} source={{ uri: imageurl }} /> */}
+            {spotifyTrack ? <SpotifyPreview spotifyTrack={spotifyTrack} style={styles.cardImage}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
+
             </View>
 
          
@@ -135,13 +138,13 @@ export function GigCard(props) {
               <Image style={styles.infoButton} source={require('../assets/info.png')} />
             </Pressable>
 
-
             <TouchableWithoutFeedback onPress={handleLike}>
               <Animated.View style={[styles.cardButton, { transform: [{ rotate: rotateInterpolate }] }]}>
                 <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
               </Animated.View>
             </TouchableWithoutFeedback>
           </View>
+
           {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
         </View>
 
@@ -209,7 +212,6 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 10,
     marginLeft: "31%"
-  
   },
   cardButton: {
     width: "33%",
