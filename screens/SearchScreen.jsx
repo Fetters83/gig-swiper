@@ -1,4 +1,4 @@
-import { View, Text, Button, Pressable, Modal, FlatList, SafeAreaView } from "react-native";
+import { View, Animated,  } from "react-native";
 import { GigCard } from "../components/GigCard";
 import { useContext, useEffect, useState } from "react";
 import { GigInfoModal } from "../components/GIgInfoModal";
@@ -8,12 +8,14 @@ import { GigStackContext } from "../contexts/GigStackContext";
 import { LikedGigContext } from "../contexts/LikedGigContext";
 import writeToDatabase from "../writeToDatabase";
 import UseAuth from "../Hooks/UseAuth";
-import { UserContext } from "../contexts/UserContext";
 import getLikedGigs from "../getLikedGigs";
 
 
 
 export function SearchScreen() {
+
+  const [scaleValue] = useState(new Animated.Value(1))
+  const [rotateValue] = useState(new Animated.Value(0))
     const [gigInfoVisible, setGigInfoVisible] = useState(false);
     const [events ,setEvents] = useState([])
     const { gigStack } = useContext(GigStackContext)
@@ -21,6 +23,40 @@ export function SearchScreen() {
     const [stackNumber, setStackNumber] = useState(0)
     const {likedGigs, setLikedGigs}= useContext(LikedGigContext) 
         const { user } = UseAuth()
+
+        const animateButton = () => {
+            Animated.sequence([
+              Animated.timing(scaleValue, {
+                toValue: 0.8,
+                duration: 100,
+                useNativeDriver: true,
+              }),
+              Animated.timing(scaleValue, {
+                toValue: 1,
+                duration: 100,
+                useNativeDriver: true,
+              }),
+            ]).start();
+          };
+          const animateButton2 = () => {
+            Animated.sequence([
+              Animated.timing(rotateValue, {
+                toValue: 1,
+                duration: 500,
+                useNativeDriver: true,
+              }),
+              Animated.timing(rotateValue, {
+                toValue: 0,
+                duration: 500,
+                useNativeDriver: true,
+              }),
+            ]).start();
+        
+          }
+          const rotateInterpolate = rotateValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '360deg']
+          })
 
         useEffect(()=>{
             getLikedGigs(user)
@@ -60,13 +96,15 @@ useEffect(()=>{
 },[gigStack])
 
     function toggleGigInfoVisible() {
+        
         setGigInfoVisible(!gigInfoVisible)
     }
 
     return (
         <View style={styles.container}>
             {gigInfoVisible ? <GigInfoModal stackNumber={stackNumber} currentGig={currentGig} gigInfoVisible={gigInfoVisible} toggleGigInfoVisible={toggleGigInfoVisible}/> :
-            <GigCard stackNumber={stackNumber} setStackNumber={setStackNumber} setCurrentGig={setCurrentGig} toggleGigInfoVisible={toggleGigInfoVisible} visible={gigInfoVisible}/>}
+            <GigCard scaleValue={scaleValue} rotateValue={rotateValue} rotateInterpolate={rotateInterpolate} animateButton={animateButton} animateButton2={animateButton2}
+             stackNumber={stackNumber} setStackNumber={setStackNumber} setCurrentGig={setCurrentGig} toggleGigInfoVisible={toggleGigInfoVisible} visible={gigInfoVisible}/>}
         </View>
     )
 }

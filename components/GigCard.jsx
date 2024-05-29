@@ -1,24 +1,30 @@
 import { useContext, useEffect, useState } from "react";
 
-import { Image, StyleSheet, Text, View, Pressable, FlatList, TouchableOpacity, Button } from "react-native";
+import { Image, StyleSheet, Text, View, Pressable, TouchableWithoutFeedback, Animated, Button } from "react-native";
 
 import { GigStackContext } from "../contexts/GigStackContext";
 import { LikedGigContext } from "../contexts/LikedGigContext";
 import { DislikedGigContext } from "../contexts/DislikedGigContext";
+import { WebView } from 'react-native-webview'; 
+import { getArtistTopTrack } from "../api";
+import SpotifyPreview from "./SpotifyPreview";
 import Loader from "./Loader";
+
 
 export function GigCard(props) {
 
-  const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber } = props
+  const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber, animateButton, animateButton2, scaleValue, rotateInterpolate, rotateValue } = props
   const { gigStack } = useContext(GigStackContext)
   const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
-  const [spotifyUrl, setSpotifyUrl] = useState(false)
+  const [spotifyTrack, setSpotifyTrack] = useState(true)
   const [likedIds, setLikedIds] = useState([])
-  const {dislikedIds, setDislikedIds} = useContext(DislikedGigContext)
+  const { dislikedIds, setDislikedIds } = useContext(DislikedGigContext)
 
   const imageurl = gigStack[stackNumber].xlargeimageurl
 
   function handleLike() {
+    animateButton2()
+
     setStackNumber(stackNumber + 1)
     setCurrentGig(gigStack[stackNumber])
     const newLike = {
@@ -42,29 +48,27 @@ export function GigCard(props) {
 
     )
   }
-  useEffect(() => { setCurrentGig(gigStack[stackNumber]) 
-    setSpotifyUrl(false)
+  useEffect(() => { 
+    setCurrentGig(gigStack[stackNumber])
+    setSpotifyTrack(true)
     if(gigStack[stackNumber].artists) {
       if(gigStack[stackNumber].artists[0]){
-  
-        if(gigStack[stackNumber].artists[0].spotifymp3url) {
-          console.log(gigStack[stackNumber].artists[0].spotifymp3url)
-  
-          
-        setSpotifyUrl(true) 
-     
-        }else {
-          setSpotifyUrl(false)
+        getArtistTopTrack(gigStack[stackNumber].artists[0].name) // this runs on initial load - should not
+        .then((topTrack) => {
+          setSpotifyTrack(topTrack) 
+        })
+        // if(gigStack[stackNumber].artists[0].spotifymp3url) {
+        //   console.log(gigStack[stackNumber].artists[0].spotifymp3url)          
+        //   setSpotifyTrack(true) 
+        } else {
+          setSpotifyTrack(false)
         }
-      }
-  
-      
-    }  
-
+      } 
+    // }  
   }, [stackNumber, gigStack])
 
   function handleDislikeById() {
-    
+    animateButton()
     setStackNumber(stackNumber + 1)
     setCurrentGig(gigStack[stackNumber])
     if (dislikedIds.length === 0) {
@@ -74,10 +78,10 @@ export function GigCard(props) {
   }
 
 
-   function handleReset(){
+  function handleReset() {
     setDislikedIds([])
 
-   }
+  }
   {
     if (likedIds.includes(gigStack[stackNumber].id || dislikedIds.includes(gigStack[stackNumber].id))) {
       setStackNumber(stackNumber + 1)
@@ -122,7 +126,7 @@ export function GigCard(props) {
         <>
           <Loader />
           <Text style={styles.typeACity}>Type a place name to search</Text>
-        
+
         </>
 
         :
@@ -132,10 +136,12 @@ export function GigCard(props) {
             <Image style={styles.cardArrowL} source={require('../assets/left.png')} />
 
             <View style={[styles.imageView, styles.shadowHeavy]}>
-              <Image style={styles.cardImage} source={{ uri: imageurl }} />
+              {/* <Image style={styles.cardImage} source={{ uri: imageurl }} /> */}
+            {spotifyTrack ? <SpotifyPreview spotifyTrack={spotifyTrack} style={styles.cardImage}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
+
             </View>
-            
-            <Image style={styles.cardArrowR} source={require('../assets/right.png')} />
+
+         
           </View>
 
           <View style={[styles.row, styles.gigText, styles.height30, styles.column]}>
@@ -153,25 +159,35 @@ export function GigCard(props) {
           </View>
 
 
+
           <View style={[styles.row, styles.buttonArea, styles.height25]}>
-            <Pressable style={styles.cardButton} onPress={handleDislikeById} onTouchStart={toggleTouchDislike} onTouchEnd={toggleTouchDislikeOff}>
-              <Image style={isDislikeTouched ? styles.cardButtonImage : styles.cardButtonImageRotate}  source={require('../assets/nah.png')} />
-            </Pressable>
+
+            <TouchableWithoutFeedback onPress={handleDislikeById} onPress={handleDislikeById} onTouchStart={toggleTouchDislike} onTouchEnd={toggleTouchDislikeOff}>
+              <Animated.View style={[styles.cardButton, { transform: [{ scale: scaleValue }] }]}>
+                <Image style={isDislikeTouched ? styles.cardButtonImage : styles.cardButtonImageRotate}  source={require('../assets/nah.png')} />
+              </Animated.View>
+            </TouchableWithoutFeedback>
+
+
             <Pressable style={styles.cardButton} onPress={toggleGigInfoVisible}>
               <Image style={styles.infoButton} source={require('../assets/info.png')} />
             </Pressable>
-            <Pressable onPress={handleLike} onTouchStart={toggleTouchLike} onTouchEnd={toggleTouchLikeOff} style={styles.cardButton}  >
-              <Image style={isLikeTouched ? styles.cardButtonImage : styles.cardButtonImageRotate} source={require('../assets/rock-on.png')} />
-            </Pressable>
+
+            <TouchableWithoutFeedback onPress={handleLike} onTouchStart={toggleTouchLike} onTouchEnd={toggleTouchLikeOff}>
+              <Animated.View style={[styles.cardButton, { transform: [{ rotate: rotateInterpolate }] }]}>
+                <Image style={isLikeTouched ? styles.cardButtonImage : styles.cardButtonImageRotate} source={require('../assets/rock-on.png')} />
+              </Animated.View>
+            </TouchableWithoutFeedback>
           </View>
+
           {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
         </View>
-        
-      
-      
-      )
+
+
+
+        )
       }
-   
+
 
     </>
   )
@@ -185,6 +201,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: "90%",
     marginVertical: "2.5%",
+
     borderRadius: 20,     
     paddingVertical: 5,
   },
@@ -193,6 +210,7 @@ const styles = StyleSheet.create({
     width: '97%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+
   },
   row: {
     flexDirection: "row",
@@ -231,6 +249,7 @@ const styles = StyleSheet.create({
   },
   height50: {
     height: "50%",
+  
   },
   height25: {
     height: "15%",
@@ -256,13 +275,15 @@ const styles = StyleSheet.create({
   imageView: {
     height: '60%',
     width: '60%',
-    transform: [{scale: 1.1}],
+    transform: [{ scale: 1.1 }],
     objectFit: "contain",
   },
   cardImage: {
+
     width: '100%',
     height: '100%',
     borderRadius: 10,
+    marginLeft: "31%"
   },
   cardButton: {
     width: "33%",
@@ -286,8 +307,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     transform: [{rotate: '45deg'}]
   },
-  resetButton:{
-  
+  resetButton: {
+
   },
   header: {
     fontSize: 20,
@@ -298,6 +319,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 14,
+    color: 'black',
     width: '100%',
     padding: 5,
     paddingHorizontal: 20,
@@ -326,6 +348,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    
+
   },
 });
