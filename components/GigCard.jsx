@@ -89,33 +89,6 @@ export function GigCard(props) {
     }
   }
 
-  const [isLikeTouched, setIsLikeTouched] = useState(true)
-
-  function toggleTouchLike() {
-    setIsLikeTouched(false)
-    setIsEitherClicked(false)
-  }
-
-  function toggleTouchLikeOff() {
-    setIsLikeTouched(true)
-    setIsEitherClicked(true)
-  }
-
-
-  const [isDislikeTouched, setIsDislikeTouched] = useState(true)
-
-  function toggleTouchDislike() {
-    setIsDislikeTouched(false)
-    setIsEitherClicked(false)
-  }
-
-  function toggleTouchDislikeOff() {
-    setIsDislikeTouched(true)
-    setIsEitherClicked(true)
-
-  }
-
-  const [isEitherClicked, setIsEitherClicked] = useState(true)
 
 
   return (
@@ -126,59 +99,55 @@ export function GigCard(props) {
         <>
           <Loader />
           <Text style={styles.typeACity}>Type a place name to search</Text>
-        
+
         </>
 
         :
         (<View style={[styles.container, styles.shadow]}>
 
-          <View style={[styles.row, styles.topArea, styles.height50]}>
-            <Image style={styles.cardArrowL} source={require('../assets/left.png')} />
-
+          <View style={[styles.row, styles.height50]}>
             <View style={[styles.imageView, styles.shadowHeavy]}>
-
-
+              {/* <Image style={styles.cardImage} source={{ uri: imageurl }} /> */}
               {spotifyTrack ? <SpotifyPreview spotifyTrack={spotifyTrack} style={{borderRadius: 1}}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
-
             </View>
-            
-            <Image style={styles.cardArrowR} source={require('../assets/right.png')} />
           </View>
 
-          <View style={[styles.row, styles.gigText, styles.height30, styles.column]}>
-
-          {isEitherClicked ? 
-          <>
+          <View style={[styles.row, styles.height30, styles.column]}>
             <Text style={styles.header}>{gigStack[stackNumber].eventname}</Text>
             <Text style={styles.text}>{gigStack[stackNumber].venue.name}</Text>
             <Text style={styles.text}>{gigStack[stackNumber].date}</Text>
             {gigStack[stackNumber].entryprice ? <Text style={styles.text}>£{gigStack[stackNumber].entryprice}</Text> : null}
-          </> 
-          : 
-          <Text style={isLikeTouched ? styles.disliked : styles.liked}>{isLikeTouched ? "REJECT" : "LIKE"}</Text>  }
-
           </View>
 
 
-          <View style={[styles.row, styles.buttonArea, styles.height25]}>
-            <Pressable style={styles.cardButton} onPress={handleDislikeById} onTouchStart={toggleTouchDislike} onTouchEnd={toggleTouchDislikeOff}>
-              <Image style={isDislikeTouched ? styles.cardButtonImage : styles.cardButtonImageRotate}  source={require('../assets/nah.png')} />
-            </Pressable>
+          <View style={[styles.row, styles.height25]}>
+
+            <TouchableWithoutFeedback onPress={handleDislikeById}>
+              <Animated.View style={[styles.cardButton, { transform: [{ scale: scaleValue }] }]}>
+                <Image style={styles.cardButtonImage} source={require('../assets/nah.png')} />
+              </Animated.View>
+            </TouchableWithoutFeedback>
+
+
             <Pressable style={styles.cardButton} onPress={toggleGigInfoVisible}>
               <Image style={styles.infoButton} source={require('../assets/info.png')} />
             </Pressable>
-            <Pressable onPress={handleLike} onTouchStart={toggleTouchLike} onTouchEnd={toggleTouchLikeOff} style={styles.cardButton}  >
-              <Image style={isLikeTouched ? styles.cardButtonImage : styles.cardButtonImageRotate} source={require('../assets/rock-on.png')} />
-            </Pressable>
+
+            <TouchableWithoutFeedback onPress={handleLike}>
+              <Animated.View style={[styles.cardButton, { transform: [{ rotate: rotateInterpolate }] }]}>
+                <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
+              </Animated.View>
+            </TouchableWithoutFeedback>
           </View>
+
           {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
         </View>
-        
-      
-      
-      )
+
+
+
+        )
       }
-   
+
 
     </>
   )
@@ -192,14 +161,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: "90%",
     marginVertical: "2.5%",
-    borderRadius: 20,     
-    paddingVertical: 5,
-  },
-  topArea: {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    width: '97%',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderRadius: 20,
   },
   row: {
     flexDirection: "row",
@@ -208,36 +170,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
 
   },
-  gigText: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonArea: {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    width: '97%',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-
-  },
-  liked: {
-    fontSize: 72,
-    color: 'green',
-    textShadowColor: 'green',
-    textShadowRadius: 25,
-    transform: [{rotate: '-25deg'}]
-
-  },
-  disliked: {
-    fontSize: 72,
-    color: 'red',
-    textShadowColor: 'red',
-    textShadowRadius: 25,
-    transform: [{rotate: '25deg'}]
-
-  },
   height50: {
     height: "50%",
+  
   },
   height25: {
     height: "15%",
@@ -247,29 +182,31 @@ const styles = StyleSheet.create({
   },
   column: {
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignContent: 'flex-start',
   },
   cardArrowL: {
-    width: "10%",
+    width: "20%",
     objectFit: "contain",
-    transform: [{translateX: 30}, {translateY: -100}],
+    transform: [{ translateX: -10 }],
   },
   cardArrowR: {
-    width: "10%",
+    width: "20%",
     objectFit: "contain",
-    transform: [{translateX: -30}, {translateY: -100}],
+    transform: [{ translateX: 10 }],
   },
   imageView: {
     height: '60%',
     width: '60%',
-    transform: [{scale: 1.1}],
+    transform: [{ scale: 1.1 }],
     objectFit: "contain",
   },
   cardImage: {
+    marginLeft: "31%",
     width: '100%',
     height: '100%',
     borderRadius: 10,
+    // marginLeft: "31%"
   },
   cardButton: {
     width: "33%",
@@ -285,16 +222,9 @@ const styles = StyleSheet.create({
     width: "100%",
     objectFit: "contain",
     alignItems: 'center',
-    
   },
-  cardButtonImageRotate: {
-    width: "100%",
-    objectFit: "contain",
-    alignItems: 'center',
-    transform: [{rotate: '45deg'}]
-  },
-  resetButton:{
-  
+  resetButton: {
+
   },
   header: {
     fontSize: 20,
@@ -305,6 +235,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 14,
+    color: 'black',
     width: '100%',
     padding: 5,
     paddingHorizontal: 20,
@@ -333,6 +264,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    
+
   },
 });
