@@ -1,6 +1,13 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 // import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SearchScreen } from "./screens/SearchScreen";
@@ -66,12 +73,10 @@ export default function App() {
                         headerTitle: Search,
                         tabBarIcon: ({ size, focused, color }) => {
                           return (
-                            <TouchableOpacity>
-                              <Image
-                                style={styles.tabImage}
-                                source={require("./assets/home.png")}
-                              />
-                            </TouchableOpacity>
+                            <Image
+                              style={styles.tabImage}
+                              source={require("./assets/home.png")}
+                            />
                           );
                         },
                       }}
@@ -122,6 +127,7 @@ const styles = StyleSheet.create({
   },
   tabImage: {
     flex: 1,
+    width: 40,
     objectFit: "contain",
   },
 });
