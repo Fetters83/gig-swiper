@@ -6,8 +6,8 @@ import { GigStackContext } from "../contexts/GigStackContext";
 import { LikedGigContext } from "../contexts/LikedGigContext";
 import { DislikedGigContext } from "../contexts/DislikedGigContext";
 import { WebView } from 'react-native-webview'; 
-import SpotifyWebView from "./TrackPreview";
 import { getArtistTopTrack } from "../api";
+import SpotifyPreview from "./SpotifyPreview";
 
 
 
@@ -106,7 +106,7 @@ console.log("reset pressed")
 
             <View style={[styles.imageView, styles.shadowHeavy]}>
               {/* <Image style={styles.cardImage} source={{ uri: imageurl }} /> */}
-            {spotifyTrack ? <SpotifyWebView spotifyTrack={spotifyTrack} style={styles.cardImage}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
+            {spotifyTrack ? <SpotifyPreview spotifyTrack={spotifyTrack} style={styles.cardImage}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
 
             </View>
             

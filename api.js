@@ -4,19 +4,39 @@ const Buffer = require('buffer/').Buffer
 const client_id = process.env.EXPO_PUBLIC_CLIENT_ID
 const client_secret = process.env.EXPO_PUBLIC_CLIENT_SECRET
 
+/* On start-up */
+let spotifyToken = ''
+getSpotifyToken()
+.then((response) => {
+    spotifyToken = response
+})
 
+
+/* Functions */
+    // These could be made extracted, but getArtistTopTrack is invoked in GigCard.jsx ...
+    // ... and requires the spotifyToken script
+export function fetchLatitudeAndLongitude(locationSearch) {
+    return axios
+    .get(
+        `https://nominatim.openstreetmap.org/search?q=gb%20${locationSearch}&format=json&addressdetails=1&limit=1&polygon_svg=1`
+    )
+    .then(({ data }) => {
+        return { latitude: data[0].lat, longitude: data[0].lon };
+    });
+}
+
+
+// Skiddle
 export function getAllEvents(latitude, longitude, radius) {
     return axios
         .get(
             `https://www.skiddle.com/api/v1/events/search/?api_key=53e664e9d779d1a9ba1d2a248bb01777/&`,
-            {
-                params: {
+            { params: {
                     latitude: latitude,
                     longitude: longitude,
                     radius: radius,
                     limit: 100,
                     description:true
-
                 },
             }
         )
@@ -25,40 +45,26 @@ export function getAllEvents(latitude, longitude, radius) {
         });
 }
 
-// Maps
-export function fetchLatitudeAndLongitude(locationSearch) {
-    return axios
-        .get(
-            `https://nominatim.openstreetmap.org/search?q=gb%20${locationSearch}&format=json&addressdetails=1&limit=1&polygon_svg=1`
-        )
-        .then(({ data }) => {
-            return { latitude: data[0].lat, longitude: data[0].lon };
-        });
-}
-
-
-
-const url = 'https://accounts.spotify.com/api/token';
-
-const authOptions = {
-    params: {
-        client_id: client_id,
-        client_secret: client_secret,
-        grant_type: 'client_credentials'
-    },
-    headers: {
-        'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
-    },
-    form: {
-        grant_type: 'client_credentials'
-    },
-    json: true
-};
-
-
 
 // Spotify
 function getSpotifyToken() {
+    const url = 'https://accounts.spotify.com/api/token';
+
+    const authOptions = {
+        params: {
+            client_id: client_id,
+            client_secret: client_secret,
+            grant_type: 'client_credentials'
+        },
+        headers: {
+            'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+        },
+        form: {
+            grant_type: 'client_credentials'
+        },
+        json: true
+    };
+
     return axios.post(url, null, authOptions)
     .then((response) => {
         return response.data.access_token;
@@ -68,7 +74,8 @@ function getSpotifyToken() {
     });
 }
 
-function fetchArtistId(token, requiredArtistsName) {
+
+function fetchArtistId(spotifyToken, requiredArtistsName) {
     return axios.get(`https://api.spotify.com/v1/search`, {
         params: {
             q: requiredArtistsName,
@@ -78,7 +85,7 @@ function fetchArtistId(token, requiredArtistsName) {
             offset: 0
         },
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${spotifyToken}`
         }
         }
     )
@@ -103,13 +110,14 @@ function getRequiredArtistId(requiredArtistsName, artists) {
     }
 }
 
-function fetchArtistTopTracks(token, artistId) {
+
+function fetchArtistTopTracks(spotifyToken, artistId) {
     return axios.get(`https://api.spotify.com/v1/artists/${artistId}/top-tracks`, {
         params: {
             market: "GB",
         },
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${spotifyToken}`
         }
         }
     )
@@ -121,17 +129,11 @@ function fetchArtistTopTracks(token, artistId) {
     })
 }
 
-let token = ''
-getSpotifyToken()
-.then((response) => {
-    token = response
-})
-
 
 export function getArtistTopTrack(artistName) {
-    return fetchArtistId(token, artistName)
+    return fetchArtistId(spotifyToken, artistName)
     .then((artistId) => {
-        return fetchArtistTopTracks(token, artistId)
+        return fetchArtistTopTracks(spotifyToken, artistId)
     })
     .then(({ topTracks }) => {
         let topTrack = topTracks[0]
