@@ -106,15 +106,10 @@ export function GigCard(props) {
         (<View style={[styles.container, styles.shadow]}>
 
           <View style={[styles.row, styles.height50]}>
-         
-
             <View style={[styles.imageView, styles.shadowHeavy]}>
               {/* <Image style={styles.cardImage} source={{ uri: imageurl }} /> */}
-            {spotifyTrack ? <SpotifyPreview spotifyTrack={spotifyTrack} style={styles.cardImage}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
-
+              {spotifyTrack ? <SpotifyPreview spotifyTrack={spotifyTrack} style={styles.cardImage}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
             </View>
-
-         
           </View>
 
           <View style={[styles.row, styles.height30, styles.column]}>
@@ -207,11 +202,11 @@ const styles = StyleSheet.create({
     objectFit: "contain",
   },
   cardImage: {
-
+    marginLeft: "31%",
     width: '100%',
     height: '100%',
     borderRadius: 10,
-    marginLeft: "31%"
+    // marginLeft: "31%"
   },
   cardButton: {
     width: "33%",
