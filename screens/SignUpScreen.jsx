@@ -41,13 +41,13 @@ export default function SignUpScreen({navigation}) {
     navigation.navigate("Login")
   }
 
-  function handleDevAccess() {
-    return signInWithEmailAndPassword(auth, 'fiveguys@dev.com', 'Password')
-    .then((data) => {
-    })
-    .catch((err) => {
-    })
-  }
+  // function handleDevAccess() {
+  //   return signInWithEmailAndPassword(auth, 'fiveguys@dev.com', 'Password')
+  //   .then((data) => {
+  //   })
+  //   .catch((err) => {
+  //   })
+  // }
 
   return (
     <View style={styles.container}>
@@ -81,10 +81,10 @@ export default function SignUpScreen({navigation}) {
         <Button onPress={handleLink} id="login" title={"Already have an account?"}></Button>
         {!validCredentials && <Text style={styles.text}> Check your credentials</Text>}
       </View>
-
+{/* 
       <View>
         <Button title="Dev Access" onPress={handleDevAccess} />
-      </View>
+      </View> */}
     </View>
   );
 }
