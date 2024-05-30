@@ -1,4 +1,4 @@
-import { TextInput, View, Text, Button  } from "react-native"
+import { TextInput, View, Text, Button, Image } from "react-native"
 import { StyleSheet } from "react-native"
 import { useState } from "react"
 import {signInWithEmailAndPassword} from 'firebase/auth'
@@ -21,6 +21,7 @@ export default function LogInScreen() {
 
   return (
     <View style={styles.container}>
+       <Image style={styles.gigLogo} source={require('../assets/logo.png')} />
       <TextInput
         placeholder="Email"
         value={email}
@@ -34,7 +35,7 @@ export default function LogInScreen() {
         secureTextEntry
         style={styles.input}
       />
-      <Button title="Log In Mate" onPress={handleLogIn} />
+      <Button title="Log In" onPress={handleLogIn} />
       {!validCredentials && <Text style={styles.container}> Invalid credentials, please check your input</Text>}
     </View>
   )
@@ -46,15 +47,21 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#fff',
     padding: 20,
+    alignItems: 'center'
   },
+  gigLogo: {
+      width: '60%',
+      height: '40%',
+    },
   input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
+    width: '100%',
   },
-});
+  }
+);
