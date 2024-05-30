@@ -30,8 +30,10 @@ export function Search() {
   function handleSetRadius() {
     if (radius && locationSearch) {
 
+
       fetchLatitudeAndLongitude(locationSearch)
       .then((data) => {
+
         return data
       })
       .then(({ latitude, longitude }) => {
@@ -56,6 +58,7 @@ export function Search() {
 
   function handleLocationGo() {
    setLoading(true)
+
 
     fetchLatitudeAndLongitude(locationSearch)
     .then((data) => {

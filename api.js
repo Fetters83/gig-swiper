@@ -7,7 +7,6 @@ const Buffer = require('buffer/').Buffer
 const client_id = process.env.EXPO_PUBLIC_CLIENT_ID
 const client_secret = process.env.EXPO_PUBLIC_CLIENT_SECRET
 
-/* On start-up */
 let spotifyToken = ''
 getSpotifyToken()
 .then((response) => {
@@ -15,11 +14,6 @@ getSpotifyToken()
 })
 
 
-/* Functions */
-    // These could be made extracted, but getArtistTopTrack is invoked in GigCard.jsx ...
-    // ... and requires the spotifyToken script
-
-// Open Street Maps
 export function fetchLatitudeAndLongitude(locationSearch) {
     return axios
     .get(
@@ -31,7 +25,6 @@ export function fetchLatitudeAndLongitude(locationSearch) {
 }
 
 
-// Skiddle
 export function getAllEvents(latitude, longitude, radius) {
     return axios
         .get(
@@ -51,7 +44,6 @@ export function getAllEvents(latitude, longitude, radius) {
 }
 
 
-// Spotify
 function getSpotifyToken() {
     const url = 'https://accounts.spotify.com/api/token';
 
