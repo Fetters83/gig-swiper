@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Pressable, Image, ScrollView, Button, Linking } from "react-native";
+import { Text, View, Pressable, Image, ScrollView, Button, Linking } from "react-native";
 import { styles } from "./GigInfoModal.styles";
 
 export function GigInfoModal(props) {
