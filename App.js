@@ -15,7 +15,7 @@ import { SavedScreen } from "./screens/SavedScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import UseAuth from "./Hooks/UseAuth";
-import SignUp from "./components/SingUp";
+import SingUpScreen from "./screens/SingUpScreen";
 import { useContext, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 
@@ -108,8 +108,8 @@ export default function App() {
     return (
       <LoadingContext.Provider value={{ loading, setLoading }}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="signUp">
-            <Stack.Screen name="signup" component={SignUp}></Stack.Screen>
+          <Stack.Navigator initialRouteName="SingUpScreen">
+            <Stack.Screen name="SingUpScreen" component={SingUpScreen}></Stack.Screen>
             <Stack.Screen name="login" component={LogInScreen}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
