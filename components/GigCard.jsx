@@ -176,7 +176,8 @@ const styles = StyleSheet.create({
   },
   height25: {
     marginTop: 'auto',
-    marginBottom: 'auto'
+    marginBottom: 'auto',
+    height: "25%"
   },
   height30: {
     height: "35%",
@@ -209,15 +210,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   cardButton: {
-    width: "20%",
+    width: "30%",
+    height: "50%",
     alignItems: 'center',
     justifyContent: 'center',
   },
-  infoButton: {
-    width: 30,
-    height: 30,
-  },
   cardButtonImage: {
+    width: 80,
+    height: 80,
+  },
+  infoButton: {
     width: 30,
     height: 30,
   },
@@ -266,6 +268,7 @@ const styles = StyleSheet.create({
 
   buttonRow: {
     justifyContent: "space-evenly",
+    height: 100,
   },
   searchScreenLogo: {
     justifyContent: 'center',
