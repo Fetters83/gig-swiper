@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     savedScreenLogo: {
-        width: '40%',
+        width: '80%',
         height: '40%',
         resizeMode: 'contain',
         marginVertical: '-15%'
