@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
   },
   searchScreenLogo: {
     justifyContent: 'center',
-    width: '40%',
+    width: '80%',
     height: '40%',
     marginVertical: '-15%' 
 

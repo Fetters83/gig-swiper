@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   gigLogo: {
-      width: '60%',
+      width: '80%',
       height: '40%',
     },
   input: {
