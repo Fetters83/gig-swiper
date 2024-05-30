@@ -16,7 +16,7 @@ function handleLogout() {
 
 export const headerStyle = {
   headerStyle: {
-    backgroundColor: "#f4511e",
+    backgroundColor: "#ff9900",
   },
   headerTintColor: "#fff",
   headerTitleStyle: {
