@@ -154,7 +154,7 @@ export function GigCard(props) {
             </> 
             : 
             <Text style={isLikeTouched ? styles.disliked : styles.liked}>{isLikeTouched ? "REJECT" : "LIKE"}</Text>  }
-
+ {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
             </View>
 
 
@@ -180,7 +180,7 @@ export function GigCard(props) {
 
           </View>
 
-          {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
+         
         </View>
 
 
@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingTop: 5,
     paddingBottom: 18,
+    position: 'relative',
   },
   topArea: {
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
     height: 30,
   },
   resetButton: {
-
+    position: 'absolute'
   },
   header: {
     fontSize: 20,
