@@ -7,7 +7,7 @@ export default function Loader() {
 
   return(
     <View style={styles.container}>
-    <ActivityIndicator color="#f4511e" animating={loading}/>
+    <ActivityIndicator color="#ff9900" animating={loading}/>
     </View>
   )
 }
