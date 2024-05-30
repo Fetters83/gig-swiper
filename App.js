@@ -1,39 +1,17 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
-// import * as React from "react";
+import { StyleSheet, Image } from "react-native";
+import { useState } from "react";
+import UseAuth from "./Hooks/UseAuth";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SearchScreen } from "./screens/SearchScreen";
 import { SavedScreen } from "./screens/SavedScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-import UseAuth from "./Hooks/UseAuth";
 import SignUpScreen from "./screens/SignUpScreen";
-import { useContext, useEffect } from "react";
-import { UserContext } from "./contexts/UserContext";
-
-import { useState } from "react";
-import { Header } from "./components/Header";
-import { SafeAreaView } from "react-native-safe-area-context";
 import LogInScreen from "./screens/LogInScreen";
 import { headerStyle } from "./styles/Header";
 import { Search } from "./components/Search";
 import { GigStackContext } from "./contexts/GigStackContext";
 import { LikedGigContext } from "./contexts/LikedGigContext";
-
-import writeToDatabase from "./writeToDatabase";
-import getLikedGigs from "./getLikedGigs";
-
-import { collection, getDocs } from "firebase/firestore";
-import db from "./firebaseConfig";
-
 import { DislikedGigContext } from "./contexts/DislikedGigContext";
 import { RadiusContext } from "./contexts/RadiusContext";
 import { LoadingContext } from "./contexts/LoadingContext";
@@ -44,18 +22,11 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [gigStack, setGigStack] = useState("nosearch");
   const [likedGigs, setLikedGigs] = useState([]);
-
   const [dislikedIds, setDislikedIds] = useState([]);
   const [radius, setRadius] = useState(10);
   const [loading, setLoading] = useState(false);
 
   const { user } = UseAuth();
-
-  const [loggedInUser, setLoggedInUser] = useState(null);
-
-  // useEffect(() => {
-  //   getLikedGigs(user);
-  // }, []);
 
   if (user) {
     return (
@@ -93,7 +64,6 @@ export default function App() {
                         },
                       }}
                     />
-
                     <Tab.Screen
                       name="Saved"
                       component={SavedScreen}
@@ -121,7 +91,6 @@ export default function App() {
       <LoadingContext.Provider value={{ loading, setLoading }}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="signUp">
-
             <Stack.Screen name="Sign up" component={SignUpScreen}></Stack.Screen>
             <Stack.Screen name="Login" component={LogInScreen}></Stack.Screen>
           </Stack.Navigator>
