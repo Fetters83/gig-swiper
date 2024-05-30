@@ -17,7 +17,7 @@ function Radius(){
         minimumTrackTintColor="#f4511e"
         maximumTrackTintColor="#000"
         thumbTintColor='#f4511e'
-        value={10}
+        value={radius}
         onValueChange={value => setRadius(parseInt(value))}
       />
       </View>
