@@ -37,7 +37,7 @@ export default function App() {
               <GigStackContext.Provider value={{ gigStack, setGigStack }}>
                 <NavigationContainer>
                   <Tab.Navigator
-                    screenOptions={headerStyle}
+/*                     screenOptions={headerStyle}
                     tabBarOptions={{
                       activeTintColor: "#000",
                       inactiveTintColor: "#444",
@@ -47,7 +47,7 @@ export default function App() {
                         backgroundColor: "#ff9900",
                         paddingBottom: 3,
                       },
-                    }}
+                    }} */
                   >
                     <Tab.Screen
                       name="Search"
