@@ -28,7 +28,6 @@ export function Search() {
   function handleRadius() {
   
     if (!radiusTab) {
-      console.log("lets choose radius")
       setRadiusTab(true)
     } else {
       setRadiusTab(false)
@@ -39,7 +38,6 @@ export function Search() {
     if (radius && locationSearch) {
 
       fetchLatitudeAndLongitude(locationSearch).then((data) => {
-        console.log("fetching")
         return data
       })
         .then(({ latitude, longitude }) => {
@@ -61,7 +59,6 @@ export function Search() {
     }
     else {
       setRadiusTab(false)
-      console.log("closing radius tab, radius is", radius)
     }
 
   }
@@ -71,7 +68,6 @@ export function Search() {
    setLoading(true)
 
     fetchLatitudeAndLongitude(locationSearch).then((data) => {
-      console.log(data.errorPlaceHolder)
       if(data.errorPlaceHolder === 62149){ setEmergentModal(true)
         setLoading(false)
         return null

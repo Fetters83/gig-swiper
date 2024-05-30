@@ -7,10 +7,10 @@ import { useState } from "react";
 function handleLogout() {
   return signOut(auth)
     .then((data) => {
-      console.log(data, "was an error");
+      console.log(data);
     })
     .catch((err) => {
-      console.log(err, "EEEEEEEEEEEEEEEE");
+      console.log(err);
     });
 }
 
