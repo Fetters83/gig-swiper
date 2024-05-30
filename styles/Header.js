@@ -26,7 +26,6 @@ export const headerStyle = {
     <Button
       onPress={handleLogout}
       title="Log Out"
-      color="#666"
       style={(marginHorizontal = 50)}
     ></Button>
   ),
