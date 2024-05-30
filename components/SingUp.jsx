@@ -3,7 +3,6 @@ import { useContext, useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { auth } from '../config/Config';
-import Error from './Error';
 import { LoadingContext } from '../contexts/LoadingContext';
 import Loader from './Loader';
 
