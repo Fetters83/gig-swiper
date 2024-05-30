@@ -98,8 +98,8 @@ export function GigCard(props) {
 
         <>
           <Loader />
-          <Text style={styles.typeACity}>Type a place name to search</Text>
-
+          <Image style={styles.searchScreenLogo} source={require('../assets/rock-on.png')} />
+          <Text style={styles.typeACity}>Enter a location to find some results...</Text>
         </>
 
         :
@@ -262,9 +262,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-
   },
+
   buttonRow: {
     justifyContent: "space-evenly",
+  },
+  searchScreenLogo: {
+    justifyContent: 'center',
+    width: '40%',
+    height: '40%',
+    marginVertical: '-15%' 
+
   }
 });
