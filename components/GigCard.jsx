@@ -1,30 +1,27 @@
 import { useContext, useEffect, useState } from "react";
-
-import { Image, StyleSheet, Text, View, Pressable, TouchableWithoutFeedback, Animated, Button } from "react-native";
-
+import { Image, StyleSheet, Text, View, Pressable, Animated, Button } from "react-native";
 import { GigStackContext } from "../contexts/GigStackContext";
 import { LikedGigContext } from "../contexts/LikedGigContext";
 import { DislikedGigContext } from "../contexts/DislikedGigContext";
-import { WebView } from 'react-native-webview'; 
 import { getArtistTopTrack } from "../api";
 import SpotifyPreview from "./SpotifyPreview";
 import Loader from "./Loader";
-
 
 export function GigCard(props) {
 
   const { toggleGigInfoVisible, setCurrentGig, stackNumber, setStackNumber, animateButton, animateButton2, scaleValue, rotateInterpolate, rotateValue } = props
   const { gigStack } = useContext(GigStackContext)
-  const {setLikedGigs, likedGigs} = useContext(LikedGigContext)
-  const [spotifyTrack, setSpotifyTrack] = useState(true)
-  const [likedIds, setLikedIds] = useState([])
+  const { setLikedGigs, likedGigs } = useContext(LikedGigContext)
+  const [ spotifyTrack, setSpotifyTrack ] = useState(true)
+  const [ likedIds, setLikedIds ] = useState([])
   const { dislikedIds, setDislikedIds } = useContext(DislikedGigContext)
-
   const imageurl = gigStack[stackNumber].xlargeimageurl
+  const [isLikeTouched, setIsLikeTouched] = useState(true)
+  const [isDislikeTouched, setIsDislikeTouched] = useState(true)
+  const [isEitherClicked, setIsEitherClicked] = useState(true)  
 
   function handleLike() {
     animateButton2()
-
     setStackNumber(stackNumber + 1)
     setCurrentGig(gigStack[stackNumber])
     const newLike = {
@@ -43,11 +40,10 @@ export function GigCard(props) {
       link: gigStack[stackNumber].link
     }
     setLikedGigs([...likedGigs, newLike])
-
     setLikedIds([...likedIds, gigStack[stackNumber].id]
-
     )
   }
+
   useEffect(() => { 
     setCurrentGig(gigStack[stackNumber])
     setSpotifyTrack(true)
@@ -57,14 +53,10 @@ export function GigCard(props) {
         .then((topTrack) => {
           setSpotifyTrack(topTrack) 
         })
-        // if(gigStack[stackNumber].artists[0].spotifymp3url) {
-        //   console.log(gigStack[stackNumber].artists[0].spotifymp3url)          
-        //   setSpotifyTrack(true) 
         } else {
           setSpotifyTrack(false)
         }
       } 
-    // }  
   }, [stackNumber, gigStack])
 
   function handleDislikeById() {
@@ -77,20 +69,15 @@ export function GigCard(props) {
     else { dislikedIds.push(gigStack[stackNumber].id) }
   }
 
-
   function handleReset() {
     setDislikedIds([])
-
   }
+
   {
     if (likedIds.includes(gigStack[stackNumber].id || dislikedIds.includes(gigStack[stackNumber].id))) {
       setStackNumber(stackNumber + 1)
-
     }
   }
-
-
-  const [isLikeTouched, setIsLikeTouched] = useState(true)
 
   function toggleTouchLike() {
     setIsLikeTouched(false)
@@ -102,9 +89,7 @@ export function GigCard(props) {
     setIsEitherClicked(true)
   }
   
-  
-  const [isDislikeTouched, setIsDislikeTouched] = useState(true)
-  
+
   function toggleTouchDislike() {
     setIsDislikeTouched(false)
     setIsEitherClicked(false)
@@ -113,38 +98,25 @@ export function GigCard(props) {
   function toggleTouchDislikeOff() {
     setIsDislikeTouched(true)
     setIsEitherClicked(true)
-  
   }
-  
-  const [isEitherClicked, setIsEitherClicked] = useState(true)
-  
-  
 
   return (
     <>
       {gigStack === "nosearch" || stackNumber === gigStack.length - 1 ?
-
-
         <>
           <Loader />
           <Image style={styles.searchScreenLogo} source={require('../assets/rock-on.png')} />
           <Text style={styles.typeACity}>Enter a location to find some results...</Text>
         </>
-
         :
         (<View style={[styles.container, styles.shadow]}>
-
           <View style={[styles.row, styles.topArea, styles.height50]}>
             <View style={[styles.imageView, styles.shadowHeavy]}>
               {/* <Image style={styles.cardImage} source={{ uri: imageurl }} /> */}
               {spotifyTrack ? <SpotifyPreview spotifyTrack={spotifyTrack} style={{borderRadius: 1}}/>: <Image style={styles.cardImage} source={{ uri: imageurl }} />} 
             </View>
           </View>
-
-
-
           <View style={[styles.row, styles.gigText, styles.height30, styles.column]}>
-
             {isEitherClicked ? 
             <>
               <Text style={styles.header}>{gigStack[stackNumber].eventname}</Text>
@@ -154,44 +126,25 @@ export function GigCard(props) {
             </> 
             : 
             <Text style={isLikeTouched ? styles.disliked : styles.liked}>{isLikeTouched ? "REJECT" : "LIKE"}</Text>  }
- {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
+              {dislikedIds.length > 0 && <Button styles={styles.resetButton} title="Reset" onPress={handleReset} />}
             </View>
-
-
-          <View style={[styles.row, styles.height25, styles.buttonRow, styles.buttonArea]}> 
-
-
+            <View style={[styles.row, styles.height25, styles.buttonRow, styles.buttonArea]}> 
               <Pressable style={styles.cardButton} onPress={handleDislikeById} onTouchStart={toggleTouchDislike} onTouchEnd={toggleTouchDislikeOff}>
               <Image style={isDislikeTouched ? styles.cardButtonImage : styles.cardButtonImageRotate}  source={require('../assets/nah.png')} />
               </Pressable>
-
-
-
-            <Pressable style={styles.cardButton} onPress={toggleGigInfoVisible}>
-              <Image style={styles.infoButton} source={require('../assets/info.png')} />
-            </Pressable>
-
-
-            <Pressable onPress={handleLike} onTouchStart={toggleTouchLike} onTouchEnd={toggleTouchLikeOff} style={styles.cardButton}  >
-            <Animated.View style={[styles.cardButton, { transform: [{ rotate: rotateInterpolate }] }]}>
-                <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
+              <Pressable style={styles.cardButton} onPress={toggleGigInfoVisible}>
+                <Image style={styles.infoButton} source={require('../assets/info.png')} />
+              </Pressable>
+              <Pressable onPress={handleLike} onTouchStart={toggleTouchLike} onTouchEnd={toggleTouchLikeOff} style={styles.cardButton}  >
+                <Animated.View style={[styles.cardButton, { transform: [{ rotate: rotateInterpolate }] }]}>
+                  <Image style={styles.cardButtonImage} source={require('../assets/rock-on.png')} />
                 </Animated.View>
               </Pressable>
-
+            </View>
           </View>
-
-         
-        </View>
-
-
-
-        )
-      }
-
-
-    </>
-  )
-}
+              )}
+          </>
+            )}
 
 const styles = StyleSheet.create({
   container: {
@@ -222,11 +175,9 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
-
   },
-  height50: {
+    height50: {
     height: "50%",
-  
   },
   height25: {
     marginTop: 'auto',
@@ -319,7 +270,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
   },
-
   buttonRow: {
     justifyContent: "space-evenly",
     height: 100,
@@ -329,14 +279,12 @@ const styles = StyleSheet.create({
     width: '40%',
     height: '40%',
     marginVertical: '-15%' 
-
   },
   buttonArea: {
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
     width: '97%',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-  
   },
   liked: {
     fontSize: 72,
@@ -344,7 +292,6 @@ const styles = StyleSheet.create({
     textShadowColor: 'green',
     textShadowRadius: 25,
     transform: [{rotate: '-25deg'}]
-  
   },
   disliked: {
     fontSize: 72,
@@ -352,7 +299,6 @@ const styles = StyleSheet.create({
     textShadowColor: 'red',
     textShadowRadius: 25,
     transform: [{rotate: '25deg'}]
-  
   },
   cardButtonImageRotate: {
     width: "100%",
