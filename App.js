@@ -109,8 +109,8 @@ export default function App() {
       <LoadingContext.Provider value={{ loading, setLoading }}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="signUp">
-            <Stack.Screen name="signup" component={SignUp}></Stack.Screen>
-            <Stack.Screen name="login" component={LogInScreen}></Stack.Screen>
+            <Stack.Screen name="Sign up" component={SignUp}></Stack.Screen>
+            <Stack.Screen name="Login" component={LogInScreen}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </LoadingContext.Provider>

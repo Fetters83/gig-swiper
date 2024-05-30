@@ -28,7 +28,7 @@ export default function SignUp({navigation}) {
   }
 
   function handleLink(){
-    navigation.navigate("login")
+    navigation.navigate("Login")
   }
 
   function handleDevAccess() {
