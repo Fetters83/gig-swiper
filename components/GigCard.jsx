@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
     marginVertical: "2.5%",
     borderRadius: 20,
     paddingTop: 5,
+    paddingBottom: 18,
   },
   topArea: {
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
