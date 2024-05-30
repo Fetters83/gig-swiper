@@ -24,6 +24,8 @@ export default function SignUpScreen({navigation}) {
           console.log("handleSignUp error caught:", error)
           setValidCredentials(false)
         })
+    } else {
+      setLoading(false)
     }
   }
 
