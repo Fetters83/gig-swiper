@@ -4,7 +4,7 @@ import { useState } from "react"
 import {signInWithEmailAndPassword} from 'firebase/auth'
 import { auth }from '../config/Config'
 
-export default function LogIn() {
+export default function LogInScreen() {
   const [email, setEmail]= useState('')
   const [password, setPassword]= useState('')
   const [validCredentials, setValidCredentials] = useState(true)

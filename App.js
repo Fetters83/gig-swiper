@@ -22,7 +22,7 @@ import { UserContext } from "./contexts/UserContext";
 import { useState } from "react";
 import { Header } from "./components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
-import LogIn from "./components/LogIn";
+import LogInScreen from "./screens/LogInScreen";
 import { headerStyle } from "./styles/Header";
 import { Search } from "./components/Search";
 import { GigStackContext } from "./contexts/GigStackContext";
@@ -110,7 +110,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="signUp">
             <Stack.Screen name="signup" component={SignUp}></Stack.Screen>
-            <Stack.Screen name="login" component={LogIn}></Stack.Screen>
+            <Stack.Screen name="login" component={LogInScreen}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </LoadingContext.Provider>
