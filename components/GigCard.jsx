@@ -120,7 +120,7 @@ export function GigCard(props) {
           </View>
 
 
-          <View style={[styles.row, styles.height25]}>
+          <View style={[styles.row, styles.height25, styles.buttonRow]}> 
 
             <TouchableWithoutFeedback onPress={handleDislikeById}>
               <Animated.View style={[styles.cardButton, { transform: [{ scale: scaleValue }] }]}>
@@ -175,7 +175,8 @@ const styles = StyleSheet.create({
   
   },
   height25: {
-    height: "15%",
+    marginTop: 'auto',
+    marginBottom: 'auto'
   },
   height30: {
     height: "35%",
@@ -206,22 +207,19 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 10,
-    // marginLeft: "31%"
   },
   cardButton: {
-    width: "33%",
-    objectFit: "contain",
+    width: "20%",
     alignItems: 'center',
+    justifyContent: 'center',
   },
   infoButton: {
-    width: "50%",
-    objectFit: "contain",
-    alignItems: 'center',
+    width: 30,
+    height: 30,
   },
   cardButtonImage: {
-    width: "100%",
-    objectFit: "contain",
-    alignItems: 'center',
+    width: 30,
+    height: 30,
   },
   resetButton: {
 
@@ -266,4 +264,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
 
   },
+  buttonRow: {
+    justifyContent: "space-evenly",
+  }
 });
