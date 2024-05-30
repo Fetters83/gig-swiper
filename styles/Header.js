@@ -22,11 +22,5 @@ export const headerStyle = {
   headerTitleStyle: {
     fontWeight: "bold",
   },
-  headerRight: () => (
-    <Button
-      onPress={handleLogout}
-      title="Log Out"
-      style={(marginHorizontal = 50)}
-    ></Button>
-  ),
+  headerRight: () => <Button onPress={handleLogout} title="Log Out"></Button>,
 };

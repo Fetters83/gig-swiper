@@ -65,7 +65,19 @@ export default function App() {
             <RadiusContext.Provider value={{ radius, setRadius }}>
               <GigStackContext.Provider value={{ gigStack, setGigStack }}>
                 <NavigationContainer>
-                  <Tab.Navigator screenOptions={headerStyle}>
+                  <Tab.Navigator
+                    screenOptions={headerStyle}
+                    tabBarOptions={{
+                      activeTintColor: "#000",
+                      inactiveTintColor: "#444",
+                      activeBackgroundColor: "#ff9900",
+                      inactiveBackgroundColor: "#ff9900",
+                      style: {
+                        backgroundColor: "#ff9900",
+                        paddingBottom: 3,
+                      },
+                    }}
+                  >
                     <Tab.Screen
                       name="Search"
                       component={SearchScreen}
