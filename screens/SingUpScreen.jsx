@@ -3,11 +3,11 @@ import { useContext, useState } from 'react';
 import { View, Text, TextInput, Button, Image } from 'react-native';
 import { auth } from '../config/Config';
 import { LoadingContext } from '../contexts/LoadingContext';
-import Loader from './Loader';
-import { styles } from './SignUp.styles'
+import Loader from '../components/Loader';
+import { styles } from './SignUpScreen.styles'
 
 
-export default function SignUp({navigation}) {
+export default function SignUpScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validCredentials, setValidCredentials] = useState(true)
