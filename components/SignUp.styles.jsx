@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
       justifyContent: 'center',
       backgroundColor: '#fff',
       padding: 20,
+      alignItems: 'center'
     },
     input: {
       height: 40,
@@ -20,5 +21,11 @@ export const styles = StyleSheet.create({
       borderWidth: 1,
       marginBottom: 12,
       paddingHorizontal: 8,
+      width: '100%'
+    },
+    gigLogo: {
+      resizeMode: 'contain',
+      width: '60%',
+      height: '40%',
     },
 });

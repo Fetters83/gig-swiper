@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useContext, useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, Image } from 'react-native';
 import { auth } from '../config/Config';
 import { LoadingContext } from '../contexts/LoadingContext';
 import Loader from './Loader';
@@ -41,6 +41,7 @@ export default function SignUp({navigation}) {
 
   return (
     <View style={styles.container}>
+      <Image style={styles.gigLogo} source={require('../assets/logo.png')} />
       <TextInput
         placeholder="Email"
         value={email}
