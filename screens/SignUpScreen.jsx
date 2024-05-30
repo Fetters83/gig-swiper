@@ -56,7 +56,7 @@ export default function SignUpScreen({navigation}) {
         style={styles.input}
       />
       <Loader/>
-      <Button title="Sign Up Mate" onPress={handleSignUp} />
+      <Button title="Sign Up" onPress={handleSignUp} />
 
       <View style={styles.logOut}>
         <Button onPress={handleLink} id="login" title={"Already have an account?"}></Button>
