@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Gigtastic Gigs Finder",
-    "slug": "gig-swiper" ,
+    "slug": "gig-swiper",
     "description": "With gigtastic you can find live events around you in your city.",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -29,7 +29,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "gig-swiper" 
+        "projectId": "gig-swiper"
       }
     },
     "owner": "fiveguys",
