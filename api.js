@@ -21,7 +21,7 @@ export function fetchLatitudeAndLongitude(locationSearch) {
     return axios
         .get(url, {
             headers: {
-                'User-Agent': 'Gigtastic/1.0 (gigtastic@gmail.com)', // Replace with your details
+                'User-Agent': 'Gigtastic/1.0 (gigtastic@gmail.com)', 
             },
         })
         .then(({ data }) => {
