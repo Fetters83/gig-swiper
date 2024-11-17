@@ -10,14 +10,17 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": { "android": {
-      "image": "latest"
-    },
-    "ios": {
-      "image": "latest"
-    }}
+    "production": {
+      "android": {
+        "image": "latest"
+      },
+      "ios": {
+        "image": "latest"
+      }
+    }
   },
   "submit": {
     "production": {}
-  }
+  },
+  "projectId": "gig-swiper" 
 }

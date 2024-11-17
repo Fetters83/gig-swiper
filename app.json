@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "gig-swiper",
-    "slug": "gig-swiper",
+    "name": "Gigtastic Gigs Finder",
+    "slug": "gig-swiper" ,
+    "description": "With gigtastic you can find live events around you in your city.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/gigtasticLogo.svg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -28,7 +29,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e36fb770-7a24-4618-95cb-039618e22a72"
+        "projectId": "gig-swiper" 
       }
     },
     "owner": "fiveguys",
@@ -36,7 +37,7 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/e36fb770-7a24-4618-95cb-039618e22a72"
+      "url": "https://u.expo.dev/gig-swiper"
     }
   }
 }
