@@ -5,10 +5,10 @@
     "description": "With gigtastic you can find live events around you in your city.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/gigtasticLogo.svg",
+    "icon": "./assets/gigtasticLogo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.jpg",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
