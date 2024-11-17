@@ -58,14 +58,11 @@ export function Search() {
 
   function handleLocationGo() {
    setLoading(true)
-
+console.log(locationSearch)
 
     fetchLatitudeAndLongitude(locationSearch)
     .then((data) => {
-      if(data.errorPlaceHolder === 62149){ setEmergentModal(true)
-        setLoading(false)
-        return null
-      }
+
       return data
     })
     .then(({ latitude, longitude }) => {
@@ -80,6 +77,7 @@ export function Search() {
         setGigStack(eventos)
     })
     .catch((err)=>{
+      console.log(err, "was an error")
       setEmergentModal(true)
       setLoading(false)
       return err

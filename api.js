@@ -13,15 +13,32 @@ getSpotifyToken()
     spotifyToken = response
 })
 
-
 export function fetchLatitudeAndLongitude(locationSearch) {
+    const url = `https://nominatim.openstreetmap.org/search?q=gb%20${encodeURIComponent(locationSearch)}&format=json&addressdetails=1&limit=1&polygon_svg=1`;
+
+    console.log("Requesting URL:", url);
+
     return axios
-    .get(
-        `https://nominatim.openstreetmap.org/search?q=gb%20${locationSearch}&format=json&addressdetails=1&limit=1&polygon_svg=1`
-    )
-    .then(({ data }) => {
-        return { latitude: data[0].lat, longitude: data[0].lon , errorPlaceHolder : data[0].osm_id };
-    });
+        .get(url, {
+            headers: {
+                'User-Agent': 'Gigtastic/1.0 (gigtastic@gmail.com)', // Replace with your details
+            },
+        })
+        .then(({ data }) => {
+            if (!data || data.length === 0) {
+                throw new Error("No results found for the given location");
+            }
+            return { latitude: data[0].lat, longitude: data[0].lon, osm_id: data[0].osm_id };
+        })
+        .catch((err) => {
+            if (err.response) {
+                console.error("HTTP Error:", err.response.status, err.response.data);
+            } else if (err.request) {
+                console.error("No response received:", err.request);
+            } else {
+                console.error("Error during setup:", err.message);
+            }
+        });
 }
 
 
