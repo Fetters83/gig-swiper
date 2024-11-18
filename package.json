@@ -33,5 +33,12 @@
     "@babel/core": "^7.20.0",
     "react-native-dotenv": "^3.4.11"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false
+      }
+    }
+  }
 }
